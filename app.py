@@ -38,7 +38,7 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif !important; }
 
 /* ── BASE: pure black, white text ── */
 .stApp { background: #000000 !important; }
-.stMarkdown p { color: #ffffff !important; font-size: 13px !important; line-height: 1.6 !important; }
+.stMarkdown p { color: #ffffff !important; font-size: 15px !important; line-height: 1.6 !important; }
 
 #MainMenu, footer, header { visibility: hidden !important; display: none !important; }
 .block-container { padding: 0 24px !important; max-width: 100% !important; }
@@ -786,7 +786,7 @@ with col_left:
         """, unsafe_allow_html=True)
     else:
         # ── Collapsible JSON Schema Tree (Block Diagram removed) ──
-        st.markdown("<p style='font-size:11px; font-weight:600; color:#846cf8; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:8px;'>DATA STRUCTURAL ARCHITECTURE ALLOCATION</p>", unsafe_allow_html=True)
+        st.markdown("<p style='font-size:13px; font-weight:600; color:#846cf8; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:8px;'>DATA STRUCTURAL ARCHITECTURE ALLOCATION</p>", unsafe_allow_html=True)
 
         chart_dataset = {key: len(val) for key, val in running_data.items() if len(val) > 0}
 
@@ -819,13 +819,10 @@ with col_left:
 with col_right:
     st.markdown('<div class="panel-label">CPQ AI Assistant Engine</div>', unsafe_allow_html=True)
 
-    user_initial = sf_username[0].upper() if sf_username else "U"
-
     chat_container = st.container(height=600, border=False)
     with chat_container:
         for msg in st.session_state.chat_history:
-            avatar = user_initial if msg["role"] == "user" else "⚡"
-            with st.chat_message(msg["role"], avatar=avatar):
+            with st.chat_message(msg["role"]):
                 st.markdown(msg["content"])
 
     # ── Input always at the bottom of the right column ──
