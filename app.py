@@ -850,4 +850,282 @@ if not st.session_state.get("sf_connected", False):
 
 # ═════════════════════════════════════════════════════════════════════════════
 # MAIN APP RUNTIME
-# ══════════════════════════════════════════════════════════════════
+# ═════════════════════════════════════════════════════════════════════════════
+sf_username = st.session_state.get("sf_username", "")
+sf_org_id = st.session_state.get("sf_org_id", "")
+sf_instance_url = st.session_state.get("sf_instance_url", "")
+sf_access_token = st.session_state.get("sf_access_token", "")
+initials = get_initials(sf_username)
+short_user = sf_username.split("@")[0] if sf_username else "User"
+
+# Inject light theme CSS if needed
+if not st.session_state.dark_mode:
+    st.markdown(LIGHT_CSS, unsafe_allow_html=True)
+
+# ── TOP NAV ──────────────────────────────────────────────────────────────────
+nav_left, nav_theme, nav_user = st.columns([7, 0.5, 0.9])
+with nav_left:
+    st.markdown(f"""
+    <div class="nav-bar">
+        <div class="nav-brand">
+            <div class="nav-logo">⚡</div>
+            <span class="nav-title">Conga CPQ Agentic Builder</span>
+            <span class="nav-pill">AI Agent</span>
+        </div>
+        <div class="nav-right">
+            <span class="status-dot"></span>
+            <span class="status-label">Connected</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with nav_theme:
+    st.markdown("<div style='padding-top:8px'>", unsafe_allow_html=True)
+    theme_icon = "☀️" if st.session_state.dark_mode else "🌙"
+    theme_tip = "Switch to light mode" if st.session_state.dark_mode else "Switch to dark mode"
+    if st.button(theme_icon, help=theme_tip, use_container_width=True):
+        st.session_state.dark_mode = not st.session_state.dark_mode
+        st.rerun()
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with nav_user:
+    st.markdown("<div style='padding-top:8px'>", unsafe_allow_html=True)
+    if st.button(f"👤  {short_user}", help="Account & settings", use_container_width=True):
+        st.session_state.profile_open = not st.session_state.profile_open
+    st.markdown("</div>", unsafe_allow_html=True)
+
+
+# ── PROFILE DROPDOWN ──────────────────────────────────────────────────────────
+if st.session_state.profile_open:
+    token_preview = (sf_access_token[:20] + "…") if sf_access_token else "—"
+    st.markdown(f"""
+    <div class="profile-card">
+        <div class="profile-card-header">
+            <div class="profile-avatar">{initials}</div>
+            <div>
+                <div class="profile-name">{short_user}</div>
+                <div class="profile-sub">{sf_username}</div>
+            </div>
+        </div>
+        <div class="profile-body">
+            <div class="profile-row">
+                <span class="profile-key">Org ID</span>
+                <span class="profile-val">{sf_org_id or "—"}</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-key">Instance</span>
+                <span class="profile-val">{sf_instance_url or "—"}</span>
+            </div>
+            <div class="profile-row">
+                <span class="profile-key">Token</span>
+                <span class="profile-val">{token_preview}</span>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    pc1, pc2 = st.columns(2)
+    with pc1:
+        if st.button("↺  Reset Session", use_container_width=True):
+            st.session_state.agent.reset()
+            rj.clear_state()
+            sync_from_backend()
+            st.session_state.chat_history = [{"role": "assistant", "content": "Session cleared. Ready for a fresh start!"}]
+            st.session_state.selected_record = None
+            st.session_state.profile_open = False
+            st.toast("Session reset.")
+            st.rerun()
+    with pc2:
+        if st.button("⏻  Disconnect", use_container_width=True):
+            try:
+                subprocess.run("sf org logout --target-org cpqOrg --no-prompt", shell=True, capture_output=True)
+            except Exception:
+                pass
+            save_sf_credentials("", "", "", "")
+            for k in ["sf_connected", "sf_username", "sf_instance_url", "sf_access_token", "sf_org_id"]:
+                st.session_state.pop(k, None)
+            st.session_state.profile_open = False
+            st.toast("Disconnected.")
+            st.rerun()
+
+    st.markdown("<hr>", unsafe_allow_html=True)
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# STABLE COLUMNS LAYOUT
+# ═════════════════════════════════════════════════════════════════════════════
+col_left, col_right = st.columns([1, 1], gap="medium")
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LEFT PANEL — Collapsible JSON Viewer & Interactivity Block Chart Diagram
+# ─────────────────────────────────────────────────────────────────────────────
+with col_left:
+    lp_header, lp_toggle = st.columns([3, 2])
+    with lp_header:
+        st.markdown('<div class="panel-label">Product Configuration</div>', unsafe_allow_html=True)
+    with lp_toggle:
+        st.session_state.show_technical = st.toggle(
+            "Technical details", value=st.session_state.show_technical, help="Show raw JSON for each record"
+        )
+
+    running_data = st.session_state.running_json
+    has_data = any(records for records in running_data.values())
+
+    # Object type → friendly icon + label
+    OBJ_META = {
+        "Product2":              ("📦", "Product"),
+        "PricebookEntry":        ("💲", "Price Book Entry"),
+        "Pricebook2":            ("📋", "Price Book"),
+        "SBQQ__ProductOption__c":("🔧", "Product Option"),
+        "SBQQ__OptionGroup__c":  ("🗂️",  "Option Group"),
+        "SBQQ__ProductFeature__c":("✨", "Product Feature"),
+        "SBQQ__ConfigurationAttribute__c": ("⚙️", "Config Attribute"),
+        "SBQQ__ConfigurationRule__c":      ("📐", "Config Rule"),
+    }
+
+    # Fields to show prominently on each card
+    DISPLAY_FIELDS = ["Name", "ProductCode", "Description", "Family",
+                      "IsActive", "UnitPrice", "CurrencyIsoCode", "Type__c"]
+
+    if not has_data:
+        st.markdown("""
+        <div style="text-align:center; padding: 48px 16px; opacity:0.5;">
+            <div style="font-size:40px; margin-bottom:12px;">📭</div>
+            <div style="font-size:14px;">No products configured yet.<br>Use the chat to start building.</div>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        chart_dataset = {k: len(v) for k, v in running_data.items() if v}
+        if chart_dataset:
+            m1, m2 = st.columns(2)
+            m1.metric("Object Types", len(chart_dataset))
+            m2.metric("Total Records", sum(chart_dataset.values()))
+
+        st.markdown("<div style='height:10px'></div>", unsafe_allow_html=True)
+
+        for obj_name, records in running_data.items():
+            if not records:
+                continue
+
+            icon, friendly = OBJ_META.get(obj_name, ("📄", obj_name))
+
+            with st.expander(f"{icon}  {friendly}  ({len(records)})", expanded=True):
+                for rec in records:
+                    rec_name    = rec.get("Name", f"Record {rec.get('uuid','')[:6]}")
+                    is_deployed = bool(rec.get("Id"))
+                    badge_cls   = "badge-deployed" if is_deployed else "badge-draft"
+                    badge_txt   = "🟢 Deployed" if is_deployed else "⚪ Draft"
+
+                    # Build visible field rows (skip internal/empty fields)
+                    skip = {"uuid", "Id", "attributes"}
+                    field_rows_html = ""
+                    for k, v in rec.items():
+                        if k in skip or v is None or v == "":
+                            continue
+                        if k not in DISPLAY_FIELDS and not st.session_state.show_technical:
+                            continue
+                        field_rows_html += (
+                            f'<div class="field-row">'
+                            f'<span class="field-key">{k}</span>'
+                            f'<span class="field-val">{v}</span>'
+                            f'</div>'
+                        )
+
+                    fallback = '<div class="field-row"><span class="field-key">No displayable fields yet</span></div>'
+                    card_html = (
+                        '<div class="product-card">'
+                        '<div class="product-card-header">'
+                        '<div>'
+                        f'<div class="product-card-title">{rec_name}</div>'
+                        f'<div class="product-card-subtitle">{obj_name}</div>'
+                        '</div>'
+                        f'<span class="{badge_cls}">{badge_txt}</span>'
+                        '</div>'
+                        '<div class="product-card-body">'
+                        f'{field_rows_html if field_rows_html else fallback}'
+                        '</div>'
+                        '</div>'
+                    )
+                    st.markdown(card_html, unsafe_allow_html=True)
+
+                    if st.session_state.show_technical:
+                        st.json(rec)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# RIGHT PANEL — Chatbot Interaction Pipeline
+# ─────────────────────────────────────────────────────────────────────────────
+with col_right:
+    st.markdown('<div class="panel-label">CPQ AI Assistant Engine</div>', unsafe_allow_html=True)
+
+    chat_container = st.container(height=600, border=False)
+    with chat_container:
+        for msg in st.session_state.chat_history:
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
+
+    # ── Input always at the bottom of the right column ──
+    if user_input := st.chat_input("Describe what you want to configure..."):
+        st.session_state.chat_history.append({"role": "user", "content": user_input})
+
+        # Animated progress bar while agent thinks
+        progress_placeholder = st.empty()
+        steps = [
+            (0.15, "🔍  Understanding your request..."),
+            (0.35, "🧠  Reasoning about CPQ schema..."),
+            (0.60, "⚙️  Building configuration..."),
+            (0.85, "✅  Finalizing response..."),
+        ]
+        try:
+            import threading, time as _time
+
+            result_container = {"response": None, "error": None, "done": False}
+            _agent = st.session_state.agent  # capture before entering thread
+
+            def run_agent():
+                try:
+                    result_container["response"] = _agent.chat(user_input)
+                except Exception as ex:
+                    result_container["error"] = traceback.format_exc()
+                finally:
+                    result_container["done"] = True
+
+            thread = threading.Thread(target=run_agent, daemon=True)
+            thread.start()
+
+            step_idx = 0
+            while not result_container["done"]:
+                if step_idx < len(steps):
+                    pct, label = steps[step_idx]
+                    progress_placeholder.markdown(f"""
+                    <div style="padding: 14px 0 4px 0;">
+                        <div style="font-size:13px; color:#846cf8; margin-bottom:8px; font-weight:500;">{label}</div>
+                        <div style="background: rgba(132,108,248,0.15); border-radius:8px; height:6px; overflow:hidden;">
+                            <div style="background: linear-gradient(90deg,#846cf8,#a78bfa); height:100%; width:{int(pct*100)}%;
+                                border-radius:8px; transition: width 0.4s ease;
+                                animation: pulse 1.5s infinite alternate;">
+                            </div>
+                        </div>
+                    </div>
+                    <style>@keyframes pulse {{ from {{ opacity:0.7 }} to {{ opacity:1 }} }}</style>
+                    """, unsafe_allow_html=True)
+                    step_idx += 1
+                _time.sleep(1.2)
+
+            thread.join()
+            progress_placeholder.empty()
+
+            if result_container["error"]:
+                err_msg = f"⚠️ Something went wrong:\n```\n{result_container['error']}\n```"
+                st.session_state.chat_history.append({"role": "assistant", "content": err_msg})
+            else:
+                st.session_state.chat_history.append({"role": "assistant", "content": result_container["response"]})
+                sync_from_backend()
+
+        except Exception as ex:
+            progress_placeholder.empty()
+            err_msg = f"⚠️ Error:\n```\n{traceback.format_exc()}\n```"
+            st.session_state.chat_history.append({"role": "assistant", "content": err_msg})
+
+        st.rerun()
