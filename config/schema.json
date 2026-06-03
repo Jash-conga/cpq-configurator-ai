@@ -1,0 +1,83 @@
+{
+  "Product2": {
+    "objectName": "Product2",
+    "label": "Product",
+    "fields": [
+      { "name": "Id", "label": "Product ID", "type": "id", "required": false, "referenceTo": [] },
+      { "name": "Name", "label": "Product Name", "type": "string", "required": true, "referenceTo": [] },
+      { "name": "ProductCode", "label": "Product Code", "type": "string", "required": false, "referenceTo": [] },
+      { "name": "Description", "label": "Product Description", "type": "textarea", "required": false, "referenceTo": [] },
+      { "name": "IsActive", "label": "Active", "type": "boolean", "required": false, "referenceTo": [] },
+      { "name": "Family", "label": "Product Family", "type": "picklist", "required": false, "referenceTo": [] }
+    ]
+  },
+  "Apttus_Config2__ProductOptionGroup__c": {
+    "objectName": "Apttus_Config2__ProductOptionGroup__c",
+    "label": "Product Option Group",
+    "fields": [
+      { "name": "Name", "label": "Option Group Name", "type": "string", "required": true, "referenceTo": [] },
+      { "name": "Apttus_Config2__ProductId__c", "label": "Product", "type": "reference", "required": true, "referenceTo": ["Product2"] },
+      { "name": "Apttus_Config2__Sequence__c", "label": "Sequence", "type": "double", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__MinOptions__c", "label": "Min Options", "type": "double", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__MaxOptions__c", "label": "Max Options", "type": "double", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__IsReadOnly__c", "label": "Read Only", "type": "boolean", "required": false, "referenceTo": [] }
+    ]
+  },
+  "Apttus_Config2__PriceList__c": {
+    "objectName": "Apttus_Config2__PriceList__c",
+    "label": "Price List",
+    "fields": [
+      { "name": "Name", "label": "Price List Name", "type": "string", "required": true, "referenceTo": [] },
+      { "name": "Apttus_Config2__Active__c", "label": "Active", "type": "boolean", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__Description__c", "label": "Description", "type": "textarea", "required": false, "referenceTo": [] },
+      { "name": "CurrencyIsoCode", "label": "Currency", "type": "string", "required": false, "referenceTo": [] }
+    ]
+  },
+  "Apttus_Config2__PriceListItem__c": {
+    "objectName": "Apttus_Config2__PriceListItem__c",
+    "label": "Price List Item",
+    "fields": [
+      { "name": "Name", "label": "Price List Item Name", "type": "string", "required": true, "referenceTo": [] },
+      { "name": "Apttus_Config2__PriceListId__c", "label": "Price List", "type": "reference", "required": true, "referenceTo": ["Apttus_Config2__PriceList__c"] },
+      { "name": "Apttus_Config2__ProductId__c", "label": "Product", "type": "reference", "required": true, "referenceTo": ["Product2"] },
+      { "name": "Apttus_Config2__ListPrice__c", "label": "List Price", "type": "currency", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__ChargeType__c", "label": "Charge Type", "type": "picklist", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__PriceMethod__c", "label": "Price Method", "type": "picklist", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__Active__c", "label": "Active", "type": "boolean", "required": false, "referenceTo": [] }
+    ]
+  },
+  "Apttus_Config2__ProductAttributeGroup__c": {
+    "objectName": "Apttus_Config2__ProductAttributeGroup__c",
+    "label": "Product Attribute Group",
+    "fields": [
+      { "name": "Name", "label": "Attribute Group Name", "type": "string", "required": true, "referenceTo": [] },
+      { "name": "Apttus_Config2__ProductId__c", "label": "Product", "type": "reference", "required": true, "referenceTo": ["Product2"] },
+      { "name": "Apttus_Config2__Sequence__c", "label": "Sequence", "type": "double", "required": false, "referenceTo": [] }
+    ]
+  },
+  "Apttus_Config2__ConstraintRule__c": {
+    "objectName": "Apttus_Config2__ConstraintRule__c",
+    "label": "Constraint Rule",
+    "fields": [
+      { "name": "Name", "label": "Constraint Rule Name", "type": "string", "required": true, "referenceTo": [] },
+      { "name": "Apttus_Config2__ProductId__c", "label": "Product", "type": "reference", "required": false, "referenceTo": ["Product2"] },
+      { "name": "Apttus_Config2__ConditionCriteria__c", "label": "Condition Criteria", "type": "picklist", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__Action__c", "label": "Action", "type": "picklist", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__Active__c", "label": "Active", "type": "boolean", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__Scope__c", "label": "Scope", "type": "picklist", "required": false, "referenceTo": [] }
+    ]
+  },
+  "Apttus_Config2__ProductOptionComponent__c": {
+    "objectName": "Apttus_Config2__ProductOptionComponent__c",
+    "label": "Product Option Component",
+    "fields": [
+      { "name": "Name", "label": "Option Component Name", "type": "string", "required": true, "referenceTo": [] },
+      { "name": "Apttus_Config2__ParentProductId__c", "label": "Parent Product", "type": "reference", "required": true, "referenceTo": ["Product2"] },
+      { "name": "Apttus_Config2__ComponentProductId__c", "label": "Component Product", "type": "reference", "required": true, "referenceTo": ["Product2"] },
+      { "name": "Apttus_Config2__ProductOptionGroupId__c", "label": "Product Option Group", "type": "reference", "required": false, "referenceTo": ["Apttus_Config2__ProductOptionGroup__c"] },
+      { "name": "Apttus_Config2__Quantity__c", "label": "Quantity", "type": "double", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__Sequence__c", "label": "Sequence", "type": "double", "required": false, "referenceTo": [] },
+      { "name": "Apttus_Config2__IsDefault__c", "label": "Is Default", "type": "boolean", "required": false, "referenceTo": [] }
+    ]
+  }
+}
