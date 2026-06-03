@@ -28,7 +28,17 @@ def load_schema(path: Optional[str] = None) -> dict:
     if _schema_cache:
         return _schema_cache
 
-    schema_path = Path(path or os.getenv("SCHEMA_PATH", "config/schema.json"))
+    path_str = path or os.getenv("SCHEMA_PATH", "config/schema.json")
+    schema_path = Path(path_str)
+
+    # If relative path and does not exist in current working directory, 
+    # check relative to the project root (which is 3 levels up from this file: backend/schema/schema_loader.py)
+    if not schema_path.is_absolute() and not schema_path.exists():
+        project_root = Path(__file__).resolve().parent.parent.parent
+        alternate_path = project_root / path_str
+        if alternate_path.exists():
+            schema_path = alternate_path
+
     if not schema_path.exists():
         raise FileNotFoundError(f"Schema file not found at: {schema_path.resolve()}")
 
