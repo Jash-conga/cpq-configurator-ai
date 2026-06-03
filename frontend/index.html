@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Conga CPQ AI Configurator</title>
+  <style>
+    :root {
+      --conga-purple: #5B2D8E;
+      --conga-purple-dark: #3D1A6E;
+      --conga-purple-light: #7B4DB5;
+      --conga-purple-xlight: #EDE6F7;
+      --conga-teal: #00B5B8;
+      --conga-teal-light: #E0F7F7;
+      --conga-white: #FFFFFF;
+      --conga-gray-100: #F5F5F8;
+      --conga-gray-200: #E8E8EE;
+      --conga-gray-400: #9A9AAF;
+      --conga-gray-700: #3A3A4A;
+      --conga-success: #28A745;
+      --conga-warning: #FFC107;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--conga-gray-100);
+      color: var(--conga-gray-700);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Header ─────────────────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, var(--conga-purple-dark) 0%, var(--conga-purple) 60%, var(--conga-purple-light) 100%);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 12px rgba(91,45,142,0.3);
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--conga-teal);
+    }
+
+    .header-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ccc;
+      display: inline-block;
+      margin-right: 5px;
+      transition: background 0.3s;
+    }
+    .status-dot.online { background: var(--conga-teal); box-shadow: 0 0 6px var(--conga-teal); }
+    .status-dot.offline { background: #e74c3c; }
+
+    .status-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+    }
+
+    .btn-header {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-header:hover { background: rgba(255,255,255,0.25); }
+
+    /* ── Main layout ─────────────────────────────────────────── */
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── Sidebar ─────────────────────────────────────────────── */
+    .sidebar {
+      width: 280px;
+      background: white;
+      border-right: 1px solid var(--conga-gray-200);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .sidebar-header {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--conga-gray-200);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--conga-gray-400);
+    }
+
+    .state-panel {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+    }
+
+    .state-empty {
+      text-align: center;
+      padding: 40px 16px;
+      color: var(--conga-gray-400);
+      font-size: 13px;
+    }
+
+    .state-empty .state-icon {
+      font-size: 36px;
+      margin-bottom: 10px;
+      opacity: 0.4;
+    }
+
+    .state-field {
+      margin-bottom: 10px;
+      background: var(--conga-gray-100);
+      border-radius: 8px;
+      padding: 10px 12px;
+      border-left: 3px solid var(--conga-purple-light);
+    }
+
+    .state-field-key {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--conga-purple);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 3px;
+    }
+
+    .state-field-value {
+      font-size: 13px;
+      color: var(--conga-gray-700);
+      word-break: break-word;
+    }
+
+    .state-field-value.filled {
+      color: var(--conga-purple-dark);
+      font-weight: 500;
+    }
+
+    .state-raw-toggle {
+      font-size: 12px;
+      color: var(--conga-purple);
+      cursor: pointer;
+      padding: 8px 14px;
+      border-top: 1px solid var(--conga-gray-200);
+      text-align: center;
+      user-select: none;
+    }
+    .state-raw-toggle:hover { background: var(--conga-purple-xlight); }
+
+    .state-raw {
+      display: none;
+      background: var(--conga-gray-100);
+      border-top: 1px solid var(--conga-gray-200);
+      padding: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      overflow-y: auto;
+      max-height: 200px;
+      color: var(--conga-gray-700);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* ── Chat area ───────────────────────────────────────────── */
+    .chat-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+
+    /* Welcome banner */
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--conga-purple-xlight), var(--conga-teal-light));
+      border: 1px solid var(--conga-purple-light);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 8px;
+    }
+
+    .welcome-banner h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--conga-purple-dark);
+      margin-bottom: 6px;
+    }
+
+    .welcome-banner p {
+      font-size: 13px;
+      color: var(--conga-purple);
+      line-height: 1.5;
+    }
+
+    .suggestion-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .chip {
+      background: white;
+      border: 1px solid var(--conga-purple-light);
+      color: var(--conga-purple);
+      font-size: 12px;
+      padding: 6px 13px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    .chip:hover {
+      background: var(--conga-purple);
+      color: white;
+      border-color: var(--conga-purple);
+    }
+
+    /* Messages */
+    .message {
+      display: flex;
+      gap: 10px;
+      max-width: 80%;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .message.agent .avatar {
+      background: linear-gradient(135deg, var(--conga-purple), var(--conga-purple-light));
+      color: white;
+    }
+
+    .message.user .avatar {
+      background: linear-gradient(135deg, var(--conga-teal), #009FA2);
+      color: white;
+    }
+
+    .bubble {
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.55;
+      max-width: 100%;
+    }
+
+    .message.agent .bubble {
+      background: white;
+      border: 1px solid var(--conga-gray-200);
+      border-bottom-left-radius: 4px;
+      color: var(--conga-gray-700);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    .message.user .bubble {
+      background: linear-gradient(135deg, var(--conga-purple), var(--conga-purple-light));
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg-time {
+      font-size: 11px;
+      color: var(--conga-gray-400);
+      margin-top: 4px;
+      text-align: right;
+    }
+
+    .message.agent .msg-time { text-align: left; }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      max-width: 80%;
+      animation: fadeIn 0.2s ease;
+    }
+    .typing-indicator.show { display: flex; }
+
+    .typing-bubble {
+      background: white;
+      border: 1px solid var(--conga-gray-200);
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
+      padding: 14px 18px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .typing-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--conga-purple-light);
+      animation: bounce 1.2s infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-6px); }
+    }
+
+    /* ── Input bar ───────────────────────────────────────────── */
+    .input-bar {
+      padding: 16px 24px;
+      background: white;
+      border-top: 1px solid var(--conga-gray-200);
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .input-wrap {
+      flex: 1;
+      background: var(--conga-gray-100);
+      border: 1.5px solid var(--conga-gray-200);
+      border-radius: 12px;
+      display: flex;
+      align-items: flex-end;
+      padding: 10px 14px;
+      transition: border-color 0.2s;
+    }
+    .input-wrap:focus-within {
+      border-color: var(--conga-purple-light);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(91,45,142,0.08);
+    }
+
+    textarea {
+      flex: 1;
+      border: none;
+      background: transparent;
+      resize: none;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--conga-gray-700);
+      outline: none;
+      max-height: 120px;
+      line-height: 1.5;
+    }
+    textarea::placeholder { color: var(--conga-gray-400); }
+
+    .send-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--conga-purple), var(--conga-purple-light));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, transform 0.1s;
+      flex-shrink: 0;
+    }
+    .send-btn:hover { opacity: 0.9; transform: scale(1.03); }
+    .send-btn:active { transform: scale(0.97); }
+    .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    .send-btn svg { fill: white; }
+
+    /* ── Scrollbar ───────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--conga-gray-200); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--conga-purple-light); }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="header-left">
+    <div class="logo">conga<span>.</span></div>
+    <div class="header-badge">CPQ AI Configurator</div>
+  </div>
+  <div class="header-actions">
+    <span class="status-dot" id="statusDot"></span>
+    <span class="status-label" id="statusLabel">Connecting...</span>
+    <button class="btn-header" onclick="resetSession()">↺ Reset</button>
+  </div>
+</header>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- Sidebar: Running State -->
+  <div class="sidebar">
+    <div class="sidebar-header">Running Configuration</div>
+    <div class="state-panel" id="statePanel">
+      <div class="state-empty">
+        <div class="state-icon">📋</div>
+        No configuration yet.<br>Start a conversation to begin.
+      </div>
+    </div>
+    <div class="state-raw-toggle" onclick="toggleRaw()">{ } View raw JSON</div>
+    <pre class="state-raw" id="stateRaw">—</pre>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat-area">
+    <div class="messages" id="messages">
+
+      <!-- Welcome banner -->
+      <div class="welcome-banner" id="welcomeBanner">
+        <h2>👋 Welcome to Conga CPQ AI</h2>
+        <p>I'm your intelligent CPQ configurator. Tell me what product you'd like to configure and I'll guide you through building a complete, validated quote — and push it to Salesforce when you're ready.</p>
+        <div class="suggestion-chips">
+          <div class="chip" onclick="sendSuggestion(this)">Configure a new product</div>
+          <div class="chip" onclick="sendSuggestion(this)">Show current state</div>
+          <div class="chip" onclick="sendSuggestion(this)">What fields are required?</div>
+          <div class="chip" onclick="sendSuggestion(this)">Deploy to Salesforce</div>
+        </div>
+      </div>
+
+      <!-- Typing indicator -->
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="avatar" style="background: linear-gradient(135deg, #5B2D8E, #7B4DB5); color:white; width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700;">AI</div>
+        <div class="typing-bubble">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Input bar -->
+    <div class="input-bar">
+      <div class="input-wrap">
+        <textarea id="msgInput" rows="1" placeholder="Ask me to configure a product, check fields, or deploy to Salesforce…"
+          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+      </div>
+      <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const API = 'http://localhost:8000';
+
+  // ── Helpers ────────────────────────────────────────────────
+  function now() {
+    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+  }
+
+  function scrollToBottom() {
+    const m = document.getElementById('messages');
+    m.scrollTop = m.scrollHeight;
+  }
+
+  // ── Status check ───────────────────────────────────────────
+  async function checkStatus() {
+    const dot = document.getElementById('statusDot');
+    const lbl = document.getElementById('statusLabel');
+    try {
+      const r = await fetch(`${API}/state`, { signal: AbortSignal.timeout(3000) });
+      if (r.ok) {
+        dot.className = 'status-dot online';
+        lbl.textContent = 'Connected';
+        updateStatePanel(await r.json());
+      } else { throw new Error(); }
+    } catch {
+      dot.className = 'status-dot offline';
+      lbl.textContent = 'Server offline';
+    }
+  }
+
+  setInterval(checkStatus, 5000);
+  checkStatus();
+
+  // ── State panel ────────────────────────────────────────────
+  function updateStatePanel(state) {
+    const panel = document.getElementById('statePanel');
+    const raw = document.getElementById('stateRaw');
+    raw.textContent = JSON.stringify(state, null, 2);
+
+    const keys = Object.keys(state);
+    if (keys.length === 0) {
+      panel.innerHTML = `<div class="state-empty"><div class="state-icon">📋</div>No configuration yet.<br>Start a conversation to begin.</div>`;
+      return;
+    }
+
+    panel.innerHTML = keys.map(k => {
+      const val = state[k];
+      const display = val === null || val === undefined || val === '' ? '<em style="color:#9A9AAF">—</em>' : String(val);
+      const filled = val !== null && val !== undefined && val !== '';
+      return `<div class="state-field">
+        <div class="state-field-key">${k}</div>
+        <div class="state-field-value ${filled ? 'filled' : ''}">${display}</div>
+      </div>`;
+    }).join('');
+  }
+
+  function toggleRaw() {
+    const el = document.getElementById('stateRaw');
+    el.style.display = el.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // ── Messages ───────────────────────────────────────────────
+  function appendMessage(role, text) {
+    const container = document.getElementById('messages');
+    const typing = document.getElementById('typingIndicator');
+
+    // hide welcome banner on first real message
+    const banner = document.getElementById('welcomeBanner');
+    if (banner) banner.style.display = 'none';
+
+    const div = document.createElement('div');
+    div.className = `message ${role}`;
+
+    const initials = role === 'user' ? 'You' : 'AI';
+    div.innerHTML = `
+      <div class="avatar">${initials}</div>
+      <div>
+        <div class="bubble">${escapeHtml(text)}</div>
+        <div class="msg-time">${now()}</div>
+      </div>`;
+
+    container.insertBefore(div, typing);
+    scrollToBottom();
+  }
+
+  function escapeHtml(text) {
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/\n/g, '<br>');
+  }
+
+  function setTyping(show) {
+    document.getElementById('typingIndicator').className = 'typing-indicator' + (show ? ' show' : '');
+    if (show) scrollToBottom();
+  }
+
+  // ── Send ───────────────────────────────────────────────────
+  async function sendMessage() {
+    const input = document.getElementById('msgInput');
+    const btn = document.getElementById('sendBtn');
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    input.style.height = 'auto';
+    btn.disabled = true;
+    appendMessage('user', text);
+    setTyping(true);
+
+    try {
+      const res = await fetch(`${API}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text })
+      });
+
+      if (!res.ok) throw new Error(`Server error ${res.status}`);
+      const data = await res.json();
+      setTyping(false);
+      appendMessage('agent', data.response);
+      if (data.running_json) updateStatePanel(data.running_json);
+    } catch (err) {
+      setTyping(false);
+      appendMessage('agent', `⚠️ Could not reach the server. Make sure it's running on localhost:8000.\n\n${err.message}`);
+    } finally {
+      btn.disabled = false;
+      input.focus();
+    }
+  }
+
+  function sendSuggestion(chip) {
+    document.getElementById('msgInput').value = chip.textContent;
+    sendMessage();
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  }
+
+  // ── Reset ──────────────────────────────────────────────────
+  async function resetSession() {
+    if (!confirm('Reset conversation and configuration?')) return;
+    try {
+      await fetch(`${API}/reset`, { method: 'POST' });
+    } catch {}
+    document.getElementById('messages').innerHTML = `
+      <div class="welcome-banner" id="welcomeBanner">
+        <h2>👋 Welcome to Conga CPQ AI</h2>
+        <p>I'm your intelligent CPQ configurator. Tell me what product you'd like to configure and I'll guide you through building a complete, validated quote — and push it to Salesforce when you're ready.</p>
+        <div class="suggestion-chips">
+          <div class="chip" onclick="sendSuggestion(this)">Configure a new product</div>
+          <div class="chip" onclick="sendSuggestion(this)">Show current state</div>
+          <div class="chip" onclick="sendSuggestion(this)">What fields are required?</div>
+          <div class="chip" onclick="sendSuggestion(this)">Deploy to Salesforce</div>
+        </div>
+      </div>
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="avatar" style="background:linear-gradient(135deg,#5B2D8E,#7B4DB5);color:white;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">AI</div>
+        <div class="typing-bubble">
+          <div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>
+        </div>
+      </div>`;
+    updateStatePanel({});
+  }
+</script>
+</body>
+</html>

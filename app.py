@@ -389,15 +389,16 @@ button[kind="secondary"]:hover {
 [data-testid="stExpander"],
 [data-testid="stExpander"] > div,
 [data-testid="stExpander"] details,
-[data-testid="stExpander"] details > div,
-[data-testid="stExpander"] details summary {
-    background: #000000 !important;
+[data-testid="stExpander"] details > div {
+    background: #0a0a0a !important;
     border: 1px solid rgba(132,108,248,0.15) !important;
     border-radius: 8px !important;
     margin-bottom: 8px !important;
 }
-[data-testid="stExpander"] summary { color: #ffffff !important; }
-[data-testid="stExpander"] * { background: #000000 !important; }
+[data-testid="stExpander"] details summary {
+    background: #0a0a0a !important;
+    color: #ffffff !important;
+}
 
 /* Metrics */
 [data-testid="stMetric"] { color: #ffffff !important; }
@@ -453,8 +454,153 @@ button[kind="secondary"]:hover {
 [data-testid="stJson"] summary:hover {
     background-color: #111111 !important;
 }
+
+/* ── PRODUCT CARDS — explicit !important so expander can't override ── */
+.product-card {
+    background: #1c1c2e !important;
+    border: 1px solid rgba(132,108,248,0.3) !important;
+    border-radius: 10px !important;
+    margin-bottom: 10px !important;
+    overflow: hidden !important;
+}
+.product-card-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px 14px !important;
+    background: rgba(132,108,248,0.15) !important;
+    border-bottom: 1px solid rgba(132,108,248,0.2) !important;
+}
+.product-card-title {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+}
+.product-card-subtitle {
+    font-size: 11px !important;
+    color: rgba(255,255,255,0.5) !important;
+    margin-top: 2px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+}
+.product-card-body { padding: 10px 14px !important; }
+.field-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    padding: 5px 0 !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+    gap: 10px !important;
+}
+.field-row:last-child { border-bottom: none !important; }
+.field-key {
+    font-size: 11px !important;
+    color: rgba(255,255,255,0.5) !important;
+    font-weight: 500 !important;
+    flex-shrink: 0 !important;
+    min-width: 100px !important;
+}
+.field-val {
+    font-size: 12px !important;
+    color: #e8e8f8 !important;
+    text-align: right !important;
+    word-break: break-word !important;
+}
+.badge-deployed {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    padding: 3px 9px !important;
+    border-radius: 20px !important;
+    background: rgba(34,197,94,0.15) !important;
+    color: #22c55e !important;
+    white-space: nowrap !important;
+}
+.badge-draft {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    padding: 3px 9px !important;
+    border-radius: 20px !important;
+    background: rgba(255,255,255,0.07) !important;
+    color: rgba(255,255,255,0.5) !important;
+    white-space: nowrap !important;
+}
+/* Toggle styling */
+.stToggle label { color: #ffffff !important; font-size: 12px !important; }
+[data-testid="stToggleSwitch"] { accent-color: #846cf8 !important; }
 </style>
 """, unsafe_allow_html=True)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# LIGHT THEME CSS (injected conditionally after session state is ready)
+# ─────────────────────────────────────────────────────────────────────────────
+LIGHT_CSS = """
+<style>
+/* ── LIGHT MODE: only change backgrounds and text colors ── */
+.stApp, [data-testid="stAppViewContainer"] { background: #F0F2F8 !important; }
+.stMarkdown p, .stMarkdown li, .stMarkdown h1, .stMarkdown h2, .stMarkdown h3 { color: #1a1a2e !important; }
+
+.nav-bar { background: #ffffff !important; border-bottom-color: #ddd8f0 !important; }
+.nav-title { color: #1a1a2e !important; }
+.nav-pill { color: #5b2d8e !important; background: rgba(91,45,142,0.08) !important; border-color: rgba(91,45,142,0.25) !important; }
+.status-label { color: #333 !important; }
+.panel-label { color: #5b2d8e !important; }
+
+/* Inputs */
+.stTextInput > div > div > input,
+.stTextArea > div > div > textarea { background: #fff !important; color: #1a1a2e !important; border-color: rgba(91,45,142,0.3) !important; }
+.stTextInput label, .stSelectbox label, .stTextArea label, .stCheckbox label { color: #1a1a2e !important; }
+.stSelectbox > div > div { background: #fff !important; color: #1a1a2e !important; }
+
+/* Toggle */
+.stToggle label { color: #1a1a2e !important; }
+
+/* Chat */
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) [data-testid="stChatMessageContent"] {
+    background: #ffffff !important; color: #1a1a2e !important;
+}
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) [data-testid="stChatMessageContent"] p { color: #1a1a2e !important; }
+[data-testid="stChatInput"] { background: #fff !important; border-color: #5b2d8e !important; }
+[data-testid="stChatInput"] > div, [data-testid="stChatInput"] > div > div { background: #fff !important; }
+[data-testid="stChatInput"] textarea { color: #1a1a2e !important; background: #fff !important; caret-color: #1a1a2e !important; }
+[data-testid="stChatInput"] textarea::placeholder { color: rgba(0,0,0,0.35) !important; }
+
+/* Profile */
+.profile-card { background: #fff !important; }
+.profile-card-header { background: rgba(91,45,142,0.05) !important; }
+.profile-name { color: #1a1a2e !important; }
+.profile-sub, .profile-key { color: #555 !important; }
+.profile-val { color: #1a1a2e !important; }
+
+/* Expanders */
+[data-testid="stExpander"],
+[data-testid="stExpander"] > div,
+[data-testid="stExpander"] details,
+[data-testid="stExpander"] details > div,
+[data-testid="stExpander"] details summary { background: #ffffff !important; color: #1a1a2e !important; }
+
+/* JSON */
+[data-testid="stJson"],
+[data-testid="stJson"] div,
+[data-testid="stJson"] pre,
+[data-testid="stJson"] code { background: #f8f8ff !important; color: #1a1a2e !important; }
+[data-testid="stJson"] span, [data-testid="stJson"] p, [data-testid="stJson"] li { color: #1a1a2e !important; }
+[data-testid="stJson"] [role="button"], [data-testid="stJson"] [role="button"] * { background: #f8f8ff !important; color: #1a1a2e !important; }
+
+/* Metrics */
+[data-testid="stMetricValue"] { color: #5b2d8e !important; }
+[data-testid="stMetricLabel"] { color: #333 !important; }
+
+/* Product cards — light overrides */
+.product-card { background: #ffffff !important; border-color: rgba(91,45,142,0.25) !important; }
+.product-card-header { background: rgba(91,45,142,0.07) !important; border-bottom-color: rgba(91,45,142,0.12) !important; }
+.product-card-title { color: #1a1a2e !important; }
+.product-card-subtitle { color: #6b6b8a !important; }
+.field-key { color: #6b6b8a !important; }
+.field-val { color: #1a1a2e !important; }
+.field-row { border-bottom-color: rgba(0,0,0,0.06) !important; }
+.badge-draft { background: rgba(0,0,0,0.06) !important; color: #555 !important; }
+.badge-deployed { background: rgba(34,197,94,0.12) !important; color: #15803d !important; }
+</style>
+"""
 
 # ─────────────────────────────────────────────────────────────────────────────
 # BACKEND IMPORTS
@@ -467,25 +613,26 @@ import state.running_json as rj
 # ─────────────────────────────────────────────────────────────────────────────
 # HELPERS
 # ─────────────────────────────────────────────────────────────────────────────
-def check_sf_login():
+def login_with_password(username, password, security_token, domain="login"):
+    """Authenticate via username + password + security token using simple-salesforce.
+    Always returns (result_dict, error_str) — one of them will be None.
+    """
     try:
-        result = subprocess.run(
-            "sf org display --target-org cpqOrg --json",
-            shell=True, capture_output=True, text=True
+        from simple_salesforce import Salesforce
+        sf = Salesforce(
+            username=username,
+            password=password,
+            security_token=security_token,
+            domain=domain,
         )
-        if result.returncode == 0:
-            data = json.loads(result.stdout)
-            if "result" in data:
-                res = data["result"]
-                return {
-                    "username": res.get("username"),
-                    "instanceUrl": res.get("instanceUrl"),
-                    "accessToken": res.get("accessToken"),
-                    "orgId": res.get("orgId") or res.get("id"),
-                }
-        return None
-    except Exception:
-        return None
+        return {
+            "username": username,
+            "instanceUrl": sf.base_url.split("/services")[0],
+            "accessToken": sf.session_id,
+            "orgId": sf.org_id,
+        }, None
+    except Exception as e:
+        return None, str(e)
 
 
 def validate_sf_session(instance_url, access_token):
@@ -577,44 +724,77 @@ if "selected_record" not in st.session_state:
 if "edit_mode" not in st.session_state:
     st.session_state.edit_mode = False
 
+if "dark_mode" not in st.session_state:
+    st.session_state.dark_mode = True
+
+if "show_technical" not in st.session_state:
+    st.session_state.show_technical = False
+
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SF CONNECTION CHECK
+# SF CONNECTION CHECK — with full-screen splash loader
 # ─────────────────────────────────────────────────────────────────────────────
 if "sf_connected" not in st.session_state:
-    env_keys = ["SF_USERNAME", "SF_INSTANCE_URL", "SF_ACCESS_TOKEN", "SF_ORG_ID"]
-    if all(os.getenv(k) for k in env_keys):
-        valid, _ = validate_sf_session(os.getenv("SF_INSTANCE_URL"), os.getenv("SF_ACCESS_TOKEN"))
-        if valid:
-            for k in env_keys:
-                st.session_state[f"sf_{k.lower().replace('sf_', '')}"] = os.getenv(k)
-            st.session_state.sf_username = os.getenv("SF_USERNAME")
-            st.session_state.sf_instance_url = os.getenv("SF_INSTANCE_URL")
-            st.session_state.sf_access_token = os.getenv("SF_ACCESS_TOKEN")
-            st.session_state.sf_org_id = os.getenv("SF_ORG_ID")
-            st.session_state.sf_connected = True
-        else:
-            cli_res = check_sf_login()
-            if cli_res:
-                save_sf_credentials(cli_res["username"], cli_res["instanceUrl"], cli_res["accessToken"], cli_res["orgId"])
-                st.session_state.sf_username = cli_res["username"]
-                st.session_state.sf_instance_url = cli_res["instanceUrl"]
-                st.session_state.sf_access_token = cli_res["accessToken"]
-                st.session_state.sf_org_id = cli_res["orgId"]
-                st.session_state.sf_connected = True
-            else:
-                st.session_state.sf_connected = False
-    else:
-        cli_res = check_sf_login()
-        if cli_res:
-            save_sf_credentials(cli_res["username"], cli_res["instanceUrl"], cli_res["accessToken"], cli_res["orgId"])
-            st.session_state.sf_username = cli_res["username"]
-            st.session_state.sf_instance_url = cli_res["instanceUrl"]
-            st.session_state.sf_access_token = cli_res["accessToken"]
-            st.session_state.sf_org_id = cli_res["orgId"]
+    _u = os.getenv("SF_USERNAME")
+    _p = os.getenv("SF_PASSWORD")
+    _t = os.getenv("SF_SECURITY_TOKEN")
+    _d = os.getenv("SF_DOMAIN", "login")
+
+    if _u and _p and _t:
+        # Show splash loader
+        _loader = st.empty()
+        _loader.markdown(
+"<style>"
+"#MainMenu,footer,header,[data-testid='stToolbar'],[data-testid='stDecoration'],.stAppHeader{display:none!important}"
+".block-container{padding:0!important}"
+".splash{position:fixed;inset:0;z-index:9999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center}"
+".splash-logo-wrap{display:flex;align-items:center;gap:14px;margin-bottom:32px}"
+".splash-icon{width:52px;height:52px;background:linear-gradient(135deg,#5b2d8e,#846cf8);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;animation:glow 2s ease-in-out infinite alternate}"
+"@keyframes glow{from{box-shadow:0 0 20px rgba(132,108,248,0.3)}to{box-shadow:0 0 40px rgba(132,108,248,0.7)}}"
+".splash-brand-name{font-size:32px;font-weight:800;color:#fff;letter-spacing:-0.5px;line-height:1;font-family:sans-serif}"
+".splash-brand-name span{color:#846cf8}"
+".splash-brand-sub{font-size:12px;color:rgba(255,255,255,0.45);letter-spacing:2px;text-transform:uppercase;margin-top:4px;font-family:sans-serif}"
+".splash-divider{width:1px;height:44px;background:rgba(132,108,248,0.3);margin:0 10px}"
+".splash-product-name{font-size:18px;font-weight:600;color:#fff;font-family:sans-serif}"
+".splash-product-tag{font-size:11px;color:#846cf8;letter-spacing:1.5px;text-transform:uppercase;margin-top:5px;font-family:sans-serif}"
+".splash-status{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:16px;font-family:sans-serif}"
+".splash-status span{color:#846cf8;font-weight:600}"
+".splash-bar-track{width:320px;height:3px;background:rgba(132,108,248,0.15);border-radius:4px;overflow:hidden}"
+".splash-bar-fill{height:100%;background:linear-gradient(90deg,#5b2d8e,#846cf8,#a78bfa);border-radius:4px;animation:loader 1.8s ease-in-out infinite}"
+"@keyframes loader{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}"
+".splash-dots{display:flex;gap:6px;margin-top:28px}"
+".splash-dot{width:5px;height:5px;border-radius:50%;background:#846cf8;animation:dotpulse 1.4s ease-in-out infinite}"
+".splash-dot:nth-child(2){animation-delay:0.2s}"
+".splash-dot:nth-child(3){animation-delay:0.4s}"
+"@keyframes dotpulse{0%,100%{opacity:0.2;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}"
+"</style>"
+"<div class='splash'>"
+"<div class='splash-logo-wrap'>"
+"<div class='splash-icon'>⚡</div>"
+"<div><div class='splash-brand-name'>conga<span>.</span></div><div class='splash-brand-sub'>Revenue Lifecycle</div></div>"
+"<div class='splash-divider'></div>"
+"<div><div class='splash-product-name'>CPQ Configurator</div><div class='splash-product-tag'>AI Agent · Hackathon</div></div>"
+"</div>"
+"<div class='splash-status'>Connecting to <span>Salesforce</span>…</div>"
+"<div class='splash-bar-track'><div class='splash-bar-fill'></div></div>"
+"<div class='splash-dots'><div class='splash-dot'></div><div class='splash-dot'></div><div class='splash-dot'></div></div>"
+"</div>",
+unsafe_allow_html=True)
+
+        _res, _err = login_with_password(_u, _p, _t, _d)
+        _loader.empty()
+
+        if _res and not isinstance(_res, tuple):
+            save_sf_credentials(_res["username"], _res["instanceUrl"], _res["accessToken"], _res["orgId"])
+            st.session_state.sf_username = _res["username"]
+            st.session_state.sf_instance_url = _res["instanceUrl"]
+            st.session_state.sf_access_token = _res["accessToken"]
+            st.session_state.sf_org_id = _res["orgId"]
             st.session_state.sf_connected = True
         else:
             st.session_state.sf_connected = False
+    else:
+        st.session_state.sf_connected = False
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -644,198 +824,30 @@ if not st.session_state.get("sf_connected", False):
 
         st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
 
-        if st.button("Connect to Salesforce", use_container_width=True):
-            with st.spinner("Opening Salesforce login — authenticate in the browser tab…"):
-                proc = subprocess.run(
-                    "sf org login web --alias cpqOrg",
-                    shell=True, capture_output=True, text=True
-                )
-                if proc.returncode == 0:
-                    cli_res = check_sf_login()
-                    if cli_res:
-                        valid, msg = validate_sf_session(cli_res["instanceUrl"], cli_res["accessToken"])
-                        if valid:
-                            save_sf_credentials(cli_res["username"], cli_res["instanceUrl"], cli_res["accessToken"], cli_res["orgId"])
-                            st.session_state.sf_username = cli_res["username"]
-                            st.session_state.sf_instance_url = cli_res["instanceUrl"]
-                            st.session_state.sf_access_token = cli_res["accessToken"]
-                            st.session_state.sf_org_id = cli_res["orgId"]
-                            st.session_state.sf_connected = True
-                            st.success("Connected!")
-                            st.rerun()
-                        else:
-                            st.error(f"Validation failed: {msg}")
-                    else:
-                        st.error("Could not retrieve session after login.")
+        with st.form("sf_login_form"):
+            _username = st.text_input("Username", value=os.getenv("SF_USERNAME", ""))
+            _password = st.text_input("Password", type="password", value=os.getenv("SF_PASSWORD", ""))
+            _token    = st.text_input("Security Token", type="password", value=os.getenv("SF_SECURITY_TOKEN", ""))
+            _domain   = st.selectbox("Domain", ["login", "test"], index=0)
+            submitted = st.form_submit_button("Connect to Salesforce", use_container_width=True)
+
+        if submitted:
+            with st.spinner("Connecting to Salesforce…"):
+                _res, _err = login_with_password(_username, _password, _token, _domain)
+                if _res and not isinstance(_res, tuple):
+                    save_sf_credentials(_res["username"], _res["instanceUrl"], _res["accessToken"], _res["orgId"])
+                    st.session_state.sf_username = _res["username"]
+                    st.session_state.sf_instance_url = _res["instanceUrl"]
+                    st.session_state.sf_access_token = _res["accessToken"]
+                    st.session_state.sf_org_id = _res["orgId"]
+                    st.session_state.sf_connected = True
+                    st.success("Connected!")
+                    st.rerun()
                 else:
-                    st.error(f"Login failed: {proc.stderr}")
+                    st.error(f"Login failed: {_err}")
     st.stop()
 
 
 # ═════════════════════════════════════════════════════════════════════════════
 # MAIN APP RUNTIME
-# ═════════════════════════════════════════════════════════════════════════════
-sf_username = st.session_state.get("sf_username", "")
-sf_org_id = st.session_state.get("sf_org_id", "")
-sf_instance_url = st.session_state.get("sf_instance_url", "")
-sf_access_token = st.session_state.get("sf_access_token", "")
-initials = get_initials(sf_username)
-short_user = sf_username.split("@")[0] if sf_username else "User"
-
-# ── TOP NAV ──────────────────────────────────────────────────────────────────
-nav_left, nav_right = st.columns([6, 1])
-with nav_left:
-    st.markdown(f"""
-    <div class="nav-bar">
-        <div class="nav-brand">
-            <div class="nav-logo">⚡</div>
-            <span class="nav-title">Conga CPQ Agentic Builder</span>
-            <span class="nav-pill">AI Agent</span>
-        </div>
-        <div class="nav-right">
-            <span class="status-dot"></span>
-            <span class="status-label">Connected</span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with nav_right:
-    st.markdown("<div style='padding-top:8px'>", unsafe_allow_html=True)
-    if st.button(f"👤  {short_user}", help="Account & settings", use_container_width=True):
-        st.session_state.profile_open = not st.session_state.profile_open
-    st.markdown("</div>", unsafe_allow_html=True)
-
-
-# ── PROFILE DROPDOWN ──────────────────────────────────────────────────────────
-if st.session_state.profile_open:
-    token_preview = (sf_access_token[:20] + "…") if sf_access_token else "—"
-    st.markdown(f"""
-    <div class="profile-card">
-        <div class="profile-card-header">
-            <div class="profile-avatar">{initials}</div>
-            <div>
-                <div class="profile-name">{short_user}</div>
-                <div class="profile-sub">{sf_username}</div>
-            </div>
-        </div>
-        <div class="profile-body">
-            <div class="profile-row">
-                <span class="profile-key">Org ID</span>
-                <span class="profile-val">{sf_org_id or "—"}</span>
-            </div>
-            <div class="profile-row">
-                <span class="profile-key">Instance</span>
-                <span class="profile-val">{sf_instance_url or "—"}</span>
-            </div>
-            <div class="profile-row">
-                <span class="profile-key">Token</span>
-                <span class="profile-val">{token_preview}</span>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    pc1, pc2 = st.columns(2)
-    with pc1:
-        if st.button("↺  Reset Session", use_container_width=True):
-            st.session_state.agent.reset()
-            rj.clear_state()
-            sync_from_backend()
-            st.session_state.chat_history = [{"role": "assistant", "content": "Session cleared. Ready for a fresh start!"}]
-            st.session_state.selected_record = None
-            st.session_state.profile_open = False
-            st.toast("Session reset.")
-            st.rerun()
-    with pc2:
-        if st.button("⏻  Disconnect", use_container_width=True):
-            try:
-                subprocess.run("sf org logout --target-org cpqOrg --no-prompt", shell=True, capture_output=True)
-            except Exception:
-                pass
-            save_sf_credentials("", "", "", "")
-            for k in ["sf_connected", "sf_username", "sf_instance_url", "sf_access_token", "sf_org_id"]:
-                st.session_state.pop(k, None)
-            st.session_state.profile_open = False
-            st.toast("Disconnected.")
-            st.rerun()
-
-    st.markdown("<hr>", unsafe_allow_html=True)
-
-
-# ═════════════════════════════════════════════════════════════════════════════
-# STABLE COLUMNS LAYOUT
-# ═════════════════════════════════════════════════════════════════════════════
-col_left, col_right = st.columns([1, 1], gap="medium")
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# LEFT PANEL — Collapsible JSON Viewer & Interactivity Block Chart Diagram
-# ─────────────────────────────────────────────────────────────────────────────
-with col_left:
-    st.markdown('<div class="panel-label">Interactive Data & Architecture State</div>', unsafe_allow_html=True)
-
-    running_data = st.session_state.running_json
-    has_data = any(records for records in running_data.values())
-
-    if not has_data:
-        st.markdown("""
-        <div class="tree-empty">
-            No active CPQ structures in stack context.<br>
-            Use the chat assistant to spin up objects or load existing definitions.
-        </div>
-        """, unsafe_allow_html=True)
-    else:
-        # ── Collapsible JSON Schema Tree (Block Diagram removed) ──
-        st.markdown("<p style='font-size:13px; font-weight:600; color:#846cf8; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:8px;'>DATA STRUCTURAL ARCHITECTURE ALLOCATION</p>", unsafe_allow_html=True)
-
-        chart_dataset = {key: len(val) for key, val in running_data.items() if len(val) > 0}
-
-        if chart_dataset:
-            col_metric1, col_metric2 = st.columns(2)
-            with col_metric1:
-                st.metric(label="Active Objects Tracked", value=len(chart_dataset))
-            with col_metric2:
-                st.metric(label="Total Individual Nodes Generated", value=sum(chart_dataset.values()))
-        else:
-            st.caption("Awaiting initial context creation map metrics to frame structural architecture details.")
-
-        for obj_name, records in running_data.items():
-            if not records:
-                continue
-
-            with st.expander(f"📦 {obj_name} ({len(records)} Records)", expanded=True):
-                for rec in records:
-                    rec_uuid = rec.get("uuid", "")
-                    rec_name = rec.get("Name", f"Record {rec_uuid[:6]}")
-                    is_deployed = bool(rec.get("Id"))
-                    label_prefix = "🟢 Deployed" if is_deployed else "⚪ Draft"
-                    st.markdown(f"**{rec_name}** · {label_prefix}")
-                    st.json(rec)
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# RIGHT PANEL — Chatbot Interaction Pipeline
-# ─────────────────────────────────────────────────────────────────────────────
-with col_right:
-    st.markdown('<div class="panel-label">CPQ AI Assistant Engine</div>', unsafe_allow_html=True)
-
-    chat_container = st.container(height=600, border=False)
-    with chat_container:
-        for msg in st.session_state.chat_history:
-            with st.chat_message(msg["role"]):
-                st.markdown(msg["content"])
-
-    # ── Input always at the bottom of the right column ──
-    if user_input := st.chat_input("Ask me to construct models or provision validation rules..."):
-        st.session_state.chat_history.append({"role": "user", "content": user_input})
-
-        with st.spinner("Analyzing operational directives..."):
-            try:
-                response_payload = st.session_state.agent.chat(user_input)
-                st.session_state.chat_history.append({"role": "assistant", "content": response_payload})
-                sync_from_backend()
-            except Exception as ex:
-                err_msg = f"An analytical runtime error occurred processing the pipeline query:\n```\n{traceback.format_exc()}\n```"
-                st.session_state.chat_history.append({"role": "assistant", "content": err_msg})
-
-        st.rerun()
+# ══════════════════════════════════════════════════════════════════
