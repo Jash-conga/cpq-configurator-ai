@@ -1,0 +1,8 @@
+python-dotenv
+langchain-core
+langchain-openai
+langgraph
+fastapi
+uvicorn
+pydantic
+azure-identity
