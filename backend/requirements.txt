@@ -6,3 +6,4 @@ fastapi
 uvicorn
 pydantic
 azure-identity
+simple-salesforce
