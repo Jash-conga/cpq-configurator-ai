@@ -1,315 +1,138 @@
 """
 backend/salesforce/sf_client.py
 
-Salesforce connection management and query helpers.
-All direct Salesforce API calls live here — tools call these functions,
-never the simple_salesforce API directly.
+Implementation of the Salesforce CPQ deployment connector using
+REST APIs and credentials obtained from the Salesforce CLI.
 """
 
 import os
-from functools import lru_cache
-from typing import Optional
-
-from dotenv import load_dotenv
-from simple_salesforce import Salesforce, SalesforceLogin, SFType
-from simple_salesforce.exceptions import SalesforceError
-
+import requests
+from copy import deepcopy
+from state import running_json
 from utils.logger import get_logger
 
-load_dotenv()
-logger = get_logger("sf_client")
+logger = get_logger("salesforce_client")
 
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Connection
-# ─────────────────────────────────────────────────────────────────────────────
-
-_sf_instance: Optional[Salesforce] = None
-
-
-def get_sf() -> Salesforce:
-    """
-    Return a cached Salesforce connection.
-    Prefers access-token auth (SF_INSTANCE_URL + SF_ACCESS_TOKEN) when both
-    are present; falls back to username/password/security-token auth.
-    Re-raises on failure so callers can surface the error to the agent.
-    """
-    global _sf_instance
-    if _sf_instance is not None:
-        return _sf_instance
-
-    instance_url = os.getenv("SF_INSTANCE_URL", "").strip()
-    access_token = os.getenv("SF_ACCESS_TOKEN", "").strip()
-
-    if instance_url and access_token and not access_token.startswith("<"):
-        logger.info("sf_connect_token", instance_url=instance_url)
-        _sf_instance = Salesforce(
-            instance_url=instance_url,
-            session_id=access_token,
-        )
-    else:
-        username = os.getenv("SF_USERNAME", "")
-        password = os.getenv("SF_PASSWORD", "")
-        token = os.getenv("SF_SECURITY_TOKEN", "")
-        domain = os.getenv("SF_DOMAIN", "login")
-
-        logger.info("sf_connect_password", username=username, domain=domain)
-        _sf_instance = Salesforce(
-            username=username,
-            password=password,
-            security_token=token,
-            domain=domain,
-        )
-
-    logger.info("sf_connected")
-    return _sf_instance
-
-
-def reset_connection():
-    """Force re-authentication on the next call (useful after token expiry)."""
-    global _sf_instance
-    _sf_instance = None
-    logger.info("sf_connection_reset")
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Internal helpers
-# ─────────────────────────────────────────────────────────────────────────────
-
-def _soql(query: str) -> list[dict]:
-    """Run a SOQL query and return all records as plain dicts."""
-    sf = get_sf()
-    logger.info("soql_query", query=query)
-    result = sf.query_all(query)
-    records = result.get("records", [])
-    # Strip the Salesforce metadata keys from each record
-    cleaned = [
-        {k: v for k, v in r.items() if k not in ("attributes",)}
-        for r in records
-    ]
-    logger.info("soql_result", count=len(cleaned))
-    return cleaned
-
-
-def _build_field_list(sf_object: str, extra_fields: list[str] | None = None) -> str:
-    """
-    Return a comma-separated field list that always includes Id and Name
-    (or the object's name-equivalent) plus any caller-specified extras.
-    Falls back to 'Id, Name' if describe fails.
-    """
-    base = ["Id", "Name"]
-    if extra_fields:
-        for f in extra_fields:
-            if f not in base:
-                base.append(f)
-    return ", ".join(base)
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Public query functions (called by agent_tools.py)
-# ─────────────────────────────────────────────────────────────────────────────
-
-def lookup_records_by_name(
-    object_name: str,
-    name_value: str,
-    extra_fields: list[str] | None = None,
-    limit: int = 10,
-) -> list[dict]:
-    """
-    Search for records of *object_name* whose Name field contains *name_value*.
-    Returns a list of matching records with at least Id and Name.
-
-    Args:
-        object_name:  Salesforce API object name, e.g. 'Apttus_Config2__PriceList__c'.
-        name_value:   Substring to search for (case-insensitive LIKE).
-        extra_fields: Additional field API names to include in the result.
-        limit:        Max records to return (default 10).
-    """
-    fields = _build_field_list(object_name, extra_fields)
-    safe_name = name_value.replace("'", "\\'")
-    query = (
-        f"SELECT {fields} FROM {object_name} "
-        f"WHERE Name LIKE '%{safe_name}%' "
-        f"LIMIT {limit}"
-    )
-    try:
-        return _soql(query)
-    except SalesforceError as exc:
-        logger.error("lookup_by_name_failed", object_name=object_name, error=str(exc))
-        return [{"error": str(exc)}]
-
-
-def lookup_record_by_id(
-    object_name: str,
-    record_id: str,
-    extra_fields: list[str] | None = None,
-) -> dict:
-    """
-    Fetch a single record by its 15- or 18-character Salesforce Id.
-    Returns the record dict, or a dict with an 'error' key on failure.
-
-    Args:
-        object_name:  Salesforce API object name.
-        record_id:    The Salesforce record Id.
-        extra_fields: Additional field API names to retrieve.
-    """
-    fields = _build_field_list(object_name, extra_fields)
-    safe_id = record_id.strip().replace("'", "\\'")
-    query = (
-        f"SELECT {fields} FROM {object_name} "
-        f"WHERE Id = '{safe_id}' "
-        f"LIMIT 1"
-    )
-    try:
-        rows = _soql(query)
-        if not rows:
-            return {"error": f"No record found with Id '{record_id}' in '{object_name}'."}
-        return rows[0]
-    except SalesforceError as exc:
-        logger.error("lookup_by_id_failed", object_name=object_name, error=str(exc))
-        return {"error": str(exc)}
-
-
-def get_full_record_by_id(
-    object_name: str,
-    record_id: str,
-) -> dict:
-    """
-    Retrieve ALL fields for a record using the REST describe + query path.
-    Useful when the agent needs to inspect an existing Salesforce record in full
-    before referencing it in a new payload.
-
-    Args:
-        object_name: Salesforce API object name.
-        record_id:   The Salesforce record Id.
-    """
-    try:
-        sf = get_sf()
-        # Use simple_salesforce's per-object API to GET by Id
-        sf_obj: SFType = getattr(sf, object_name)
-        record = sf_obj.get(record_id)
-        # Strip internal SF metadata
-        cleaned = {k: v for k, v in record.items() if k != "attributes"}
-        logger.info("get_full_record", object_name=object_name, record_id=record_id)
-        return cleaned
-    except SalesforceError as exc:
-        logger.error("get_full_record_failed", object_name=object_name, error=str(exc))
-        return {"error": str(exc)}
-
-
-# ─────────────────────────────────────────────────────────────────────────────
-# Deployment (existing stub — kept here for co-location)
-# ─────────────────────────────────────────────────────────────────────────────
 
 def deploy_running_json() -> dict:
     """
-    Deploy all records in the running JSON to Salesforce.
-    Returns a result summary dict.
+    Deploys the running JSON state to Salesforce using the access token and instance URL
+    retrieved via SF CLI. Resolves dependencies between records.
     """
-    from state import running_json  # local import to avoid circular deps
+    instance_url = os.getenv("SF_INSTANCE_URL")
+    access_token = os.getenv("SF_ACCESS_TOKEN")
 
-    sf = get_sf()
-    state = running_json.get_state()
-    results: dict[str, list] = {}
+    if not instance_url or not access_token:
+        return {
+            "status": "error",
+            "message": "Salesforce connection error: Not connected. Please click 'Connect Salesforce' in the Streamlit UI."
+        }
 
-    for object_name, records in state.items():
-        results[object_name] = []
-        sf_obj: SFType = getattr(sf, object_name)
-        for record in records:
-            payload = {k: v for k, v in record.items() if k != "_uuid"}
-            try:
-                response = sf_obj.create(payload)
-                results[object_name].append(
-                    {"uuid": record.get("_uuid"), "sf_id": response.get("id"), "status": "created"}
-                )
-                logger.salesforce_op("create", object_name, payload, response)
-            except SalesforceError as exc:
-                results[object_name].append(
-                    {"uuid": record.get("_uuid"), "error": str(exc), "status": "failed"}
-                )
-                logger.error("deploy_record_failed", object_name=object_name, error=str(exc))
-
-    return results
-
-if __name__ == "__main__":
-    import json
-    import sys
-
-    # ── Config — change these two values before running ──────────────────────
-    NAME_FILTER = "Test"          # partial name to search for (case-insensitive)
-    # ─────────────────────────────────────────────────────────────────────────
-
-    def _pretty(label: str, data) -> None:
-        print(f"\n{'─' * 60}")
-        print(f"  {label}")
-        print('─' * 60)
-        print(json.dumps(data, indent=2, default=str))
-
-    # ── 1. Connection check ───────────────────────────────────────────────────
-    print("\n[1] Connecting to Salesforce...")
+    # Validate session first
+    val_url = f"{instance_url}/services/data/v58.0/"
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
     try:
-        sf = get_sf()
-        print(f"    ✓ Connected  |  base_url: {sf.base_url}")
-    except Exception as exc:
-        print(f"    ✗ Connection failed: {exc}")
-        sys.exit(1)
+        val_resp = requests.get(val_url, headers=headers)
+        if val_resp.status_code != 200:
+            return {
+                "status": "error",
+                "message": f"Salesforce session expired or invalid. Please re-authenticate. Details: {val_resp.text}"
+            }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": f"Salesforce connection failed: {str(e)}"
+        }
 
-    # ── 2. Lookup Account by name ─────────────────────────────────────────────
-    print(f"\n[2] Account  — lookup by name containing '{NAME_FILTER}'")
-    account_results = lookup_records_by_name(
-        object_name="Account",
-        name_value=NAME_FILTER,
-        extra_fields=["Phone", "BillingCity", "Type"],
-        limit=5,
-    )
-    _pretty(f"Account name LIKE '%{NAME_FILTER}%'  (max 5)", account_results)
+    state = running_json.get_state()
+    total_records = sum(len(records) for records in state.values())
 
-    # ── 3. Lookup Product2 by name ────────────────────────────────────────────
-    print(f"\n[3] Product2 — lookup by name containing '{NAME_FILTER}'")
-    product_results = lookup_records_by_name(
-        object_name="Product2",
-        name_value=NAME_FILTER,
-        extra_fields=["ProductCode", "IsActive", "Family"],
-        limit=5,
-    )
-    _pretty(f"Product2 name LIKE '%{NAME_FILTER}%'  (max 5)", product_results)
+    if total_records == 0:
+        return {
+            "status": "success",
+            "message": "No records in the running JSON to deploy.",
+            "deployed_count": 0
+        }
 
-    # ── 4. Validate by Id (uses first Account result if one was found) ────────
-    first_account = next(
-        (r for r in account_results if "Id" in r),
-        None,
-    )
-    if first_account:
-        record_id = first_account["Id"]
-        print(f"\n[4] Validate Account Id  →  {record_id}")
-        validated = lookup_record_by_id(
-            object_name="Account",
-            record_id=record_id,
-            extra_fields=["Phone", "BillingCity"],
-        )
-        _pretty(f"lookup_record_by_id('Account', '{record_id}')", validated)
+    # Define deployment order to respect dependencies
+    deploy_order = [
+        "Product2",
+        "Apttus_Config2__PriceList__c",
+        "Apttus_Config2__ProductAttributeGroup__c",
+        "Apttus_Config2__ProductOptionGroup__c",
+        "Apttus_Config2__ConstraintRule__c",
+        "Apttus_Config2__PriceListItem__c",
+        "Apttus_Config2__ProductOptionComponent__c"
+    ]
 
-        # ── 5. Full record details for the same Account ───────────────────────
-        print(f"\n[5] Full record details for Account  →  {record_id}")
-        full = get_full_record_by_id(object_name="Account", record_id=record_id)
-        _pretty(f"get_full_record_by_id('Account', '{record_id}')", full)
-    else:
-        print(f"\n[4] Skipping Id validation — no Account matched '{NAME_FILTER}'")
-        print(f"[5] Skipping full record fetch — no Account matched '{NAME_FILTER}'")
+    # Map to store local uuid -> Salesforce ID
+    uuid_to_sf_id = {}
+    deployed_details = {}
+    errors = []
 
-    # ── 6. Validate by Id (uses first Product2 result if one was found) ───────
-    first_product = next(
-        (r for r in product_results if "Id" in r),
-        None,
-    )
-    if first_product:
-        record_id = first_product["Id"]
-        print(f"\n[6] Full record details for Product2  →  {record_id}")
-        full_product = get_full_record_by_id(object_name="Product2", record_id=record_id)
-        _pretty(f"get_full_record_by_id('Product2', '{record_id}')", full_product)
-    else:
-        print(f"\n[6] Skipping Product2 full fetch — no Product2 matched '{NAME_FILTER}'")
+    for sobject in deploy_order:
+        records = state.get(sobject, [])
+        if not records:
+            continue
 
-    print(f"\n{'═' * 60}")
-    print("  All tests complete.")
-    print('═' * 60)
+        deployed_details[sobject] = []
+        for rec in records:
+            local_uuid = rec.get("uuid")
+            # Build payload, resolving any references to previously created records
+            payload = {}
+            for field, val in rec.items():
+                if field in ("uuid", "Id"):
+                    continue
+                # If this field is a reference to a local uuid, resolve it
+                if val in uuid_to_sf_id:
+                    payload[field] = uuid_to_sf_id[val]
+                else:
+                    payload[field] = val
+
+            # Send request to Salesforce
+            url = f"{instance_url}/services/data/v58.0/sobjects/{sobject}"
+            try:
+                response = requests.post(url, json=payload, headers=headers)
+                if response.status_code in (200, 201):
+                    sf_id = response.json()["id"]
+                    uuid_to_sf_id[local_uuid] = sf_id
+                    
+                    # Update local state record in memory
+                    running_json.update_record(sobject, local_uuid, {"Id": sf_id})
+                    
+                    deployed_rec = {**rec, "Id": sf_id}
+                    deployed_details[sobject].append(deployed_rec)
+                    
+                    logger.salesforce_op(
+                        operation="create_record",
+                        object_name=sobject,
+                        payload=rec,
+                        result={"status": "success", "id": sf_id}
+                    )
+                else:
+                    err_msg = f"Failed to deploy {sobject} ({rec.get('Name')}): {response.text}"
+                    logger.error("salesforce_deploy_error", error=err_msg)
+                    errors.append(err_msg)
+            except Exception as ex:
+                err_msg = f"Exception deploying {sobject} ({rec.get('Name')}): {str(ex)}"
+                logger.error("salesforce_deploy_exception", error=err_msg)
+                errors.append(err_msg)
+
+    if errors:
+        return {
+            "status": "partial_success" if uuid_to_sf_id else "error",
+            "message": f"Deployment finished with {len(errors)} errors.",
+            "errors": errors,
+            "deployed_count": len(uuid_to_sf_id),
+            "details": deployed_details
+        }
+
+    return {
+        "status": "success",
+        "message": f"Successfully deployed {total_records} records to Salesforce.",
+        "deployed_count": total_records,
+        "details": deployed_details
+    }

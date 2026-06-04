@@ -151,9 +151,16 @@ def pretty_print() -> str:
 
 
 def print_state():
-    """Print the running JSON to stdout with a clear header."""
-    print("\n" + "═" * 60)
-    print("  📦  RUNNING JSON STATE")
-    print("═" * 60)
-    print(pretty_print())
-    print("═" * 60 + "\n")
+    """Print the running JSON to stdout safely without any fancy characters."""
+    try:
+        lines = [
+            "\n" + "-" * 60,
+            "--- RUNNING JSON STATE ---",
+            "-" * 60,
+            pretty_print(),
+            "-" * 60 + "\n"
+        ]
+        print("\n".join(lines))
+    except Exception:
+        # Ultimate fallback safety net so state logging never kills a tool run
+        pass
