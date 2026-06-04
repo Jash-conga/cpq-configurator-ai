@@ -6,8 +6,8 @@
       { "name": "Id", "label": "Product ID", "type": "id", "required": false, "referenceTo": [] },
       { "name": "Name", "label": "Product Name", "type": "string", "required": true, "referenceTo": [] },
       { "name": "ProductCode", "label": "Product Code", "type": "string", "required": false, "referenceTo": [] },
-      { "name": "Description", "label": "Product Description", "type": "textarea", "required": false, "referenceTo": [] },
-      { "name": "IsActive", "label": "Active", "type": "boolean", "required": false, "referenceTo": [] },
+      { "name": "Description", "label": "Product Description", "type": "textarea", "required": true, "referenceTo": [] },
+      { "name": "IsActive", "label": "Active", "type": "boolean", "required": true, "referenceTo": [] },
       { "name": "Family", "label": "Product Family", "type": "picklist", "required": false, "referenceTo": [] }
     ]
   },
