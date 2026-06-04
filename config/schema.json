@@ -3,81 +3,2087 @@
     "objectName": "Product2",
     "label": "Product",
     "fields": [
-      { "name": "Id", "label": "Product ID", "type": "id", "required": false, "referenceTo": [] },
-      { "name": "Name", "label": "Product Name", "type": "string", "required": true, "referenceTo": [] },
-      { "name": "ProductCode", "label": "Product Code", "type": "string", "required": false, "referenceTo": [] },
-      { "name": "Description", "label": "Product Description", "type": "textarea", "required": true, "referenceTo": [] },
-      { "name": "IsActive", "label": "Active", "type": "boolean", "required": true, "referenceTo": [] },
-      { "name": "Family", "label": "Product Family", "type": "picklist", "required": false, "referenceTo": [] }
+      {
+        "name": "Name",
+        "label": "Product Name",
+        "type": "string",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "ProductCode",
+        "label": "Product Code",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Description",
+        "label": "Product Description",
+        "type": "textarea",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "IsActive",
+        "label": "Active",
+        "type": "boolean",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "Family",
+        "label": "Product Family",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ConfigurationType__c",
+        "label": "Configuration Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Customizable__c",
+        "label": "Must Configure",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__EffectiveDate__c",
+        "label": "Effective Date",
+        "type": "datetime",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ExpirationDate__c",
+        "label": "Expiration Date",
+        "type": "datetime",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__HasAttributes__c",
+        "label": "Has Attributes",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__HasDefaults__c",
+        "label": "Has Defaults",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__HasOptions__c",
+        "label": "Has Options",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__HasSearchAttributes__c",
+        "label": "Has Search Attributes (Deprecated)",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IconId__c",
+        "label": "Icon Image",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IconSize__c",
+        "label": "Actual Icon Size",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Uom__c",
+        "label": "Uom",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__RenewalLeadTime__c",
+        "label": "Renewal Lead Time",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DiscontinuedDate__c",
+        "label": "Discontinued Date",
+        "type": "date",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__BundleInvoiceLevel__c",
+        "label": "Bundle Invoice Level",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "ACME_Enterprise_or_CSD__c",
+        "label": "ACME Enterprise or CSD",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Bundle_or_Standalone__c",
+        "label": "Bundle or Standalone",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Hardware_or_Software__c",
+        "label": "Hardware or Software",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Version__c",
+        "label": "Version",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Instructor_Exercise_Data__c",
+        "label": "Instructor Exercise Data",
+        "type": "multipicklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__EffectiveStartDate__c",
+        "label": "Effective Start Date",
+        "type": "date",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductType__c",
+        "label": "Product Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ShowTabView__c",
+        "label": "Show Tab View",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Number_of_Services__c",
+        "label": "Number of Services",
+        "type": "multipicklist",
+        "required": false,
+        "referenceTo": []
+      }
     ]
   },
   "Apttus_Config2__ProductOptionGroup__c": {
     "objectName": "Apttus_Config2__ProductOptionGroup__c",
     "label": "Product Option Group",
     "fields": [
-      { "name": "Name", "label": "Option Group Name", "type": "string", "required": true, "referenceTo": [] },
-      { "name": "Apttus_Config2__ProductId__c", "label": "Product", "type": "reference", "required": true, "referenceTo": ["Product2"] },
-      { "name": "Apttus_Config2__Sequence__c", "label": "Sequence", "type": "double", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__MinOptions__c", "label": "Min Options", "type": "double", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__MaxOptions__c", "label": "Max Options", "type": "double", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__IsReadOnly__c", "label": "Read Only", "type": "boolean", "required": false, "referenceTo": [] }
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__OptionGroupId__c",
+        "label": "Option Group",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Apttus_Config2__ClassificationHierarchy__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__IsHidden__c",
+        "label": "Is Hidden",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IsLeaf__c",
+        "label": "Is Leaf",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IsPicklist__c",
+        "label": "Is Picklist",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Left__c",
+        "label": "Left",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Level__c",
+        "label": "Level",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MaxOptions__c",
+        "label": "Max Options",
+        "type": "double",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MaxTotalQuantity__c",
+        "label": "Max Total Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MinOptions__c",
+        "label": "Min Options",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MinTotalQuantity__c",
+        "label": "Min Total Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ModifiableType__c",
+        "label": "Modifiable Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ParentOptionGroupId__c",
+        "label": "Parent Option Group",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__ClassificationHierarchy__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ProductId__c",
+        "label": "Product",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Product2"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__Right__c",
+        "label": "Right",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__RootOptionGroupId__c",
+        "label": "Root Option Group",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__ClassificationHierarchy__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__RootSequence__c",
+        "label": "Root Sequence",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Sequence__c",
+        "label": "Sequence",
+        "type": "double",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "APTS_Ext_ID__c",
+        "label": "APTS Ext ID",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MaxTotalQuantityExpressionId__c",
+        "label": "Max Total Quantity Expression",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__FieldExpression__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__MinTotalQuantityExpressionId__c",
+        "label": "Min Total Quantity Expression",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__FieldExpression__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ContentType__c",
+        "label": "Content Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DetailPage__c",
+        "label": "Detail Page",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductAttributeGroupMemberId__c",
+        "label": "Product Attribute Group",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__ProductAttributeGroupMember__c"
+        ]
+      }
     ]
   },
-  "Apttus_Config2__PriceList__c": {
-    "objectName": "Apttus_Config2__PriceList__c",
-    "label": "Price List",
+  "Apttus_Config2__ProductClassification__c": {
+    "objectName": "Apttus_Config2__ProductClassification__c",
+    "label": "Product Classification",
     "fields": [
-      { "name": "Name", "label": "Price List Name", "type": "string", "required": true, "referenceTo": [] },
-      { "name": "Apttus_Config2__Active__c", "label": "Active", "type": "boolean", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__Description__c", "label": "Description", "type": "textarea", "required": false, "referenceTo": [] },
-      { "name": "CurrencyIsoCode", "label": "Currency", "type": "string", "required": false, "referenceTo": [] }
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ClassificationId__c",
+        "label": "Category",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Apttus_Config2__ClassificationHierarchy__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__DefaultQuantity__c",
+        "label": "Default Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Default__c",
+        "label": "Default",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MaxQuantity__c",
+        "label": "Max Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MinQuantity__c",
+        "label": "Min Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Modifiable__c",
+        "label": "Modifiable",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductId__c",
+        "label": "Product",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Product2"
+        ]
+      },
+      {
+        "name": "APTS_Ext_ID__c",
+        "label": "APTS Ext ID",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Sequence__c",
+        "label": "Sequence",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      }
     ]
   },
   "Apttus_Config2__PriceListItem__c": {
     "objectName": "Apttus_Config2__PriceListItem__c",
     "label": "Price List Item",
     "fields": [
-      { "name": "Name", "label": "Price List Item Name", "type": "string", "required": true, "referenceTo": [] },
-      { "name": "Apttus_Config2__PriceListId__c", "label": "Price List", "type": "reference", "required": true, "referenceTo": ["Apttus_Config2__PriceList__c"] },
-      { "name": "Apttus_Config2__ProductId__c", "label": "Product", "type": "reference", "required": true, "referenceTo": ["Product2"] },
-      { "name": "Apttus_Config2__ListPrice__c", "label": "List Price", "type": "currency", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__ChargeType__c", "label": "Charge Type", "type": "picklist", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__PriceMethod__c", "label": "Price Method", "type": "picklist", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__Active__c", "label": "Active", "type": "boolean", "required": false, "referenceTo": [] }
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__PriceListId__c",
+        "label": "Price List",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Apttus_Config2__PriceList__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__Active__c",
+        "label": "Active",
+        "type": "boolean",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AllocateGroupAdjustment__c",
+        "label": "Allocate Group Adjustment",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AllowManualAdjustment__c",
+        "label": "Allow Manual Adjustment",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AllowPriceRampOverlap__c",
+        "label": "Allow Price Ramp Overlap",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AllowProration__c",
+        "label": "Allow Proration",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AutoCascadeQuantity__c",
+        "label": "Auto Cascade Quantity",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AutoCascadeSellingTerm__c",
+        "label": "Auto Cascade Selling Term",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ChargeType__c",
+        "label": "Charge Type",
+        "type": "picklist",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ContractPrice__c",
+        "label": "Contract Price",
+        "type": "currency",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Cost__c",
+        "label": "Cost",
+        "type": "currency",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Criteria__c",
+        "label": "Charge Type Criteria",
+        "type": "textarea",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DefaultPriceDatasource__c",
+        "label": "Default Price Field",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DefaultPriceFrom__c",
+        "label": "Default Price From",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DefaultQuantityDatasource__c",
+        "label": "Default Quantity Field",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DefaultQuantityFrom__c",
+        "label": "Default Quantity From",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DefaultQuantity__c",
+        "label": "Default Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DefaultSellingTerm__c",
+        "label": "Default Selling Term",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Description__c",
+        "label": "Description",
+        "type": "textarea",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__EffectiveDate__c",
+        "label": "Effective Date",
+        "type": "datetime",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__EnableCommitment__c",
+        "label": "Enable Commitment",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__EnablePriceRamp__c",
+        "label": "Enable Price Ramp",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ExpirationDate__c",
+        "label": "Expiration Date",
+        "type": "datetime",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Frequency__c",
+        "label": "Frequency",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IsQuantityReadOnly__c",
+        "label": "Is Quantity Read Only",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IsSellingTermReadOnly__c",
+        "label": "Is Selling Term Read Only",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IsUsageTierModifiable__c",
+        "label": "Is Usage Tier Modifiable",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ListPrice__c",
+        "label": "List Price",
+        "type": "currency",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MaxPrice__c",
+        "label": "Max Price/Net Adj %",
+        "type": "currency",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MinMaxPriceAppliesTo__c",
+        "label": "Min/Max Price Applies To",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MinPrice__c",
+        "label": "Min Price/Net Adj %",
+        "type": "currency",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__PriceIncludedInBundle__c",
+        "label": "Price Included In Bundle",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__PriceMethod__c",
+        "label": "Price Method",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__PriceType__c",
+        "label": "Price Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__PriceUom__c",
+        "label": "Price Uom",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductId__c",
+        "label": "Product",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Product2"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__RelatedAdjustmentAmount__c",
+        "label": "Related Adjustment Amount",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__RelatedAdjustmentAppliesTo__c",
+        "label": "Related Adjustment Applies To",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__RelatedAdjustmentType__c",
+        "label": "Related Adjustment Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__RelatedItemId__c",
+        "label": "Related Price List Item",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__PriceListItem__c"
+        ]
+      }, 
+      {
+        "name": "APTS_Ext_ID__c",
+        "label": "APTS Ext ID",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Sequence__c",
+        "label": "Sequence",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__HasCriteria__c",
+        "label": "Has Charge Type Criteria",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MaxUsageQuantity__c",
+        "label": "Max Usage Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MinUsageQuantity__c",
+        "label": "Min Usage Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__RRAccountRuleId__c",
+        "label": "Recognized Revenue Account",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__GLAccountMapRule__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__RevRecPolicyId__c",
+        "label": "Revenue Recognition Policy",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__RevRecPolicy__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__TaxCodeId__c",
+        "label": "Tax Code",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__TaxCode__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__EffectiveOn__c",
+        "label": "Effective On",
+        "type": "date",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ExpiresOn__c",
+        "label": "Expires On",
+        "type": "date",
+        "required": false,
+        "referenceTo": []
+      }
     ]
   },
-  "Apttus_Config2__ProductAttributeGroup__c": {
-    "objectName": "Apttus_Config2__ProductAttributeGroup__c",
-    "label": "Product Attribute Group",
+  "Apttus_Config2__ConstraintRuleAction__c": {
+    "objectName": "Apttus_Config2__ConstraintRuleAction__c",
+    "label": "Constraint Rule Action",
     "fields": [
-      { "name": "Name", "label": "Attribute Group Name", "type": "string", "required": true, "referenceTo": [] },
-      { "name": "Apttus_Config2__ProductId__c", "label": "Product", "type": "reference", "required": true, "referenceTo": ["Product2"] },
-      { "name": "Apttus_Config2__Sequence__c", "label": "Sequence", "type": "double", "required": false, "referenceTo": [] }
+      {
+        "name": "Name",
+        "label": "Constraint Rule Action Name",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ConstraintRuleId__c",
+        "label": "Constraint Rule",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Apttus_Config2__ConstraintRule__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ActionCriteria__c",
+        "label": "Action Criteria",
+        "type": "textarea",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ActionDisposition__c",
+        "label": "Action Disposition",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ActionIntent__c",
+        "label": "Action Intent",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ActionType__c",
+        "label": "Action Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AutoExclude__c",
+        "label": "Ignore Cart",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AutoInclude__c",
+        "label": "Auto Include (Deprecated)",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IncludeMatchRule__c",
+        "label": "Min/Max Match Rule",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IncludeMaxProducts__c",
+        "label": "Max Products",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IncludeMinProducts__c",
+        "label": "Min Products",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchInAsset__c",
+        "label": "Match In Asset",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchInCartOptions__c",
+        "label": "Match In Cart Options",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchInOptions__c",
+        "label": "Match In Options",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchInPrimaryLines__c",
+        "label": "Match In Primary Lines",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Message__c",
+        "label": "Message",
+        "type": "textarea",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductCategory__c",
+        "label": "Product Category (Deprecated)",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFamily__c",
+        "label": "Product Family",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductGroupId__c",
+        "label": "Product Group",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__ProductGroup__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ProductId__c",
+        "label": "Product",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Product2"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ProductScope__c",
+        "label": "Product Scope",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__RepeatInclusion__c",
+        "label": "Repeat Inclusion",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Sequence__c",
+        "label": "Sequence",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "APTS_Ext_ID__c",
+        "label": "APTS Ext ID",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      }
     ]
   },
-  "Apttus_Config2__ConstraintRule__c": {
-    "objectName": "Apttus_Config2__ConstraintRule__c",
-    "label": "Constraint Rule",
+  "Apttus_Config2__ConstraintRuleCondition__c": {
+    "objectName": "Apttus_Config2__ConstraintRuleCondition__c",
+    "label": "Constraint Rule Condition",
     "fields": [
-      { "name": "Name", "label": "Constraint Rule Name", "type": "string", "required": true, "referenceTo": [] },
-      { "name": "Apttus_Config2__ProductId__c", "label": "Product", "type": "reference", "required": false, "referenceTo": ["Product2"] },
-      { "name": "Apttus_Config2__ConditionCriteria__c", "label": "Condition Criteria", "type": "picklist", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__Action__c", "label": "Action", "type": "picklist", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__Active__c", "label": "Active", "type": "boolean", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__Scope__c", "label": "Scope", "type": "picklist", "required": false, "referenceTo": [] }
+      {
+        "name": "Name",
+        "label": "Constraint Rule Condition Name",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ConstraintRuleId__c",
+        "label": "Constraint Rule",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Apttus_Config2__ConstraintRule__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ConditionCriteria__c",
+        "label": "Condition Criteria",
+        "type": "textarea",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchInAsset__c",
+        "label": "Match In Asset (Deprecated)",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchInCartOptions__c",
+        "label": "Match In Cart Options",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchInLocation__c",
+        "label": "Match In Location",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchInOptions__c",
+        "label": "Match In Options",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchInPrimaryLines__c",
+        "label": "Match In Primary Lines",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchMaxProducts__c",
+        "label": "Match Max Products",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchMinProducts__c",
+        "label": "Match Min Products",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchRule__c",
+        "label": "Match Rule",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductCategory__c",
+        "label": "Product Category(Deprecated)",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFamily__c",
+        "label": "Product Family",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldA__c",
+        "label": "Product Field A",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldB__c",
+        "label": "Product Field B",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldC__c",
+        "label": "Product Field C",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldD__c",
+        "label": "Product Field D",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldValueA__c",
+        "label": "Field Value A",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldValueB__c",
+        "label": "Field Value B",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldValueC__c",
+        "label": "Field Value C",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldValueD__c",
+        "label": "Field Value D",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductGroupId__c",
+        "label": "Product Group",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__ProductGroup__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ProductId__c",
+        "label": "Product",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Product2"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ProductScope__c",
+        "label": "Product Scope",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Sequence__c",
+        "label": "Sequence",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "APTS_Ext_ID__c",
+        "label": "APTS Ext ID",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldOperatorA__c",
+        "label": "Operator A",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldOperatorB__c",
+        "label": "Operator B",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldOperatorC__c",
+        "label": "Operator C",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFieldOperatorD__c",
+        "label": "Operator D",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductOptionGroupId__c",
+        "label": "Product Option Group",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__ProductOptionGroup__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__MatchInRelatedLines__c",
+        "label": "Match In Related Lines",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MatchInServiceAssets__c",
+        "label": "Match In Service Assets",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      }
+    ]
+  },
+  "Apttus_Config2__AttributeValueMatrix__c": {
+    "objectName": "Apttus_Config2__AttributeValueMatrix__c",
+    "label": "Attribute Value Matrix",
+    "fields": [
+      {
+        "name": "OwnerId",
+        "label": "Owner ID",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Group",
+          "User"
+        ]
+      },
+      {
+        "name": "Name",
+        "label": "Matrix Name",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AccountScopeOper__c",
+        "label": "Account Scope Oper",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AccountScope__c",
+        "label": "Account Scope",
+        "type": "multipicklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Active__c",
+        "label": "Active",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DefaultProductAttributeScopeId__c",
+        "label": "Default Product Attribute Scope",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__ProductAttributeGroup__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__Description__c",
+        "label": "Description",
+        "type": "textarea",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFamilyScopeOper__c",
+        "label": "Product Family Scope Oper",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductFamilyScope__c",
+        "label": "Product Family Scope",
+        "type": "multipicklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductGroupScopeOper__c",
+        "label": "Product Group Scope Oper",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductGroupScope__c",
+        "label": "Product Group Scope",
+        "type": "multipicklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductScopeOper__c",
+        "label": "Product Scope Oper",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductScope__c",
+        "label": "Product Scope",
+        "type": "multipicklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ApplicationType__c",
+        "label": "Application Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__EffectiveDate__c",
+        "label": "Effective Date",
+        "type": "date",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ExpirationDate__c",
+        "label": "Expiration Date",
+        "type": "date",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__TreatNullAsWildcard__c",
+        "label": "Treat Null As Wildcard ?",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      }
+    ]
+  },
+  "Apttus_Config2__PriceList__c": {
+    "objectName": "Apttus_Config2__PriceList__c",
+    "label": "Price List",
+    "fields": [
+      {
+        "name": "Name",
+        "label": "Price List Name",
+        "type": "string",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AccountId__c",
+        "label": "Account",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Account"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__Active__c",
+        "label": "Active",
+        "type": "boolean",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__BasedOnAdjustmentAmount__c",
+        "label": "Based On Adjustment Amount",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__BasedOnAdjustmentType__c",
+        "label": "Based On Adjustment Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__BasedOnPriceListId__c",
+        "label": "Based On Price List",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__PriceList__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ContractNumber__c",
+        "label": "Contract Number",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Description__c",
+        "label": "Description",
+        "type": "textarea",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__EffectiveDate__c",
+        "label": "Effective Date",
+        "type": "datetime",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ExpirationDate__c",
+        "label": "Expiration Date",
+        "type": "datetime",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__GuidePage__c",
+        "label": "Guide Page (Deprecated)",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Type__c",
+        "label": "Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "APTS_Ext_ID__c",
+        "label": "APTS Ext ID",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__CostModelId__c",
+        "label": "Cost Model",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__CostModel__c"
+        ]
+      },
+      {
+        "name": "Course_CPQ_Advanced_Admin__c",
+        "label": "Course CPQ Advanced Admin",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Instructor_Exercise_Data__c",
+        "label": "Instructor Exercise Data",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DisableBasedOnCurrencyAdjustment__c",
+        "label": "Disable Based On Currency Adjustment",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      }
+    ]
+  },
+  "Apttus_Config2__ProductOptionPrice__c": {
+    "objectName": "Apttus_Config2__ProductOptionPrice__c",
+    "label": "Product Option Price",
+    "fields": [
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__PriceListId__c",
+        "label": "Price List",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Apttus_Config2__PriceList__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__AdjustmentAmount__c",
+        "label": "Adjustment Amount",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AdjustmentType__c",
+        "label": "Adjustment Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AllocateGroupAdjustment__c",
+        "label": "Allocate Group Adjustment",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AllowManualAdjustment__c",
+        "label": "Allow Manual Adjustment",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ChargeType__c",
+        "label": "Charge Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ContractPrice__c",
+        "label": "Contract Price",
+        "type": "currency",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__PriceIncludedInBundle__c",
+        "label": "Price Included In Bundle",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__PriceOverride__c",
+        "label": "Price Override",
+        "type": "currency",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ProductOptionId__c",
+        "label": "Product Option",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Apttus_Config2__ProductOptionComponent__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__RollupPriceMethod__c",
+        "label": "Rollup Price Method",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__RollupPriceToBundle__c",
+        "label": "Rollup Price To Bundle (Deprecated)",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Sequence__c",
+        "label": "Sequence",
+        "type": "double",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "APTS_Ext_ID__c",
+        "label": "APTS Ext ID",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__HideInvoiceDisplay__c",
+        "label": "Hide Invoice Display",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IsQuantityReadOnly__c",
+        "label": "Is Quantity Read Only",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IsSellingTermReadOnly__c",
+        "label": "Is Selling Term Read Only",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ContractItemNumber__c",
+        "label": "Contract Item Number",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      }
     ]
   },
   "Apttus_Config2__ProductOptionComponent__c": {
     "objectName": "Apttus_Config2__ProductOptionComponent__c",
     "label": "Product Option Component",
     "fields": [
-      { "name": "Name", "label": "Option Component Name", "type": "string", "required": true, "referenceTo": [] },
-      { "name": "Apttus_Config2__ParentProductId__c", "label": "Parent Product", "type": "reference", "required": true, "referenceTo": ["Product2"] },
-      { "name": "Apttus_Config2__ComponentProductId__c", "label": "Component Product", "type": "reference", "required": true, "referenceTo": ["Product2"] },
-      { "name": "Apttus_Config2__ProductOptionGroupId__c", "label": "Product Option Group", "type": "reference", "required": false, "referenceTo": ["Apttus_Config2__ProductOptionGroup__c"] },
-      { "name": "Apttus_Config2__Quantity__c", "label": "Quantity", "type": "double", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__Sequence__c", "label": "Sequence", "type": "double", "required": false, "referenceTo": [] },
-      { "name": "Apttus_Config2__IsDefault__c", "label": "Is Default", "type": "boolean", "required": false, "referenceTo": [] }
+      {
+        "name": "OwnerId",
+        "label": "Owner ID",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Group",
+          "User"
+        ]
+      },
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__AllowCloning__c",
+        "label": "Allow Cloning",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ComponentProductId__c",
+        "label": "Component Product",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Product2"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__DefaultQuantity__c",
+        "label": "Default Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Default__c",
+        "label": "Default",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__InclusionCriteria__c",
+        "label": "Inclusion Criteria",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MaxQuantity__c",
+        "label": "Max Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MinQuantity__c",
+        "label": "Min Quantity",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Modifiable__c",
+        "label": "Quantity Modifiable",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ParentProductId__c",
+        "label": "Parent Product",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Product2"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ProductOptionGroupId__c",
+        "label": "Product Option Group",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Apttus_Config2__ProductOptionGroup__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__RelationshipType__c",
+        "label": "Relationship Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Required__c",
+        "label": "Required",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Sequence__c",
+        "label": "Sequence",
+        "type": "double",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "APTS_Ext_ID__c",
+        "label": "APTS Ext ID",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__DefaultQuantityExpressionId__c",
+        "label": "Default Quantity Expression",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__FieldExpression__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__MaxQuantityExpressionId__c",
+        "label": "Max Quantity Expression",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__FieldExpression__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__MinQuantityExpressionId__c",
+        "label": "Min Quantity Expression",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__FieldExpression__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__AutoUpdateQuantity__c",
+        "label": "Auto Update Quantity",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ConfigType__c",
+        "label": "Config Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      }
+    ]
+  },
+  "Apttus_Config2__ClassificationHierarchy__c": {
+    "objectName": "Apttus_Config2__ClassificationHierarchy__c",
+    "label": "Category Hierarchy",
+    "fields": [
+      {
+        "name": "Name",
+        "label": "Name",
+        "type": "string",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "CurrencyIsoCode",
+        "label": "Currency ISO Code",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__HierarchyId__c",
+        "label": "Hierarchy",
+        "type": "reference",
+        "required": true,
+        "referenceTo": [
+          "Apttus_Config2__ClassificationName__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__AncestorId__c",
+        "label": "Ancestor",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__ClassificationHierarchy__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__DefaultSearchCategory__c",
+        "label": "Default Search Category",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Description__c",
+        "label": "Description",
+        "type": "textarea",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__ExpandedByDefault__c",
+        "label": "Expanded By Default",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__GuidePage__c",
+        "label": "Guide Page",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__HideAllSearchFilters__c",
+        "label": "Hide All Search Filters",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IconId__c",
+        "label": "Icon Image",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IncludeInTotalsView__c",
+        "label": "Include In Totals View",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IsHidden__c",
+        "label": "Is Hidden",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__IsPicklist__c",
+        "label": "Is Picklist",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Label__c",
+        "label": "Label",
+        "type": "string",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__LargeIconId__c",
+        "label": "Large Icon Image",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__LargeImageSize__c",
+        "label": "Large Image Size",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Left__c",
+        "label": "Left",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Level__c",
+        "label": "Level",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__LongDescription__c",
+        "label": "Long Description",
+        "type": "textarea",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MaxOptions__c",
+        "label": "Max Options",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__MinOptions__c",
+        "label": "Min Options",
+        "type": "double",
+        "required": true,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Modifiable__c",
+        "label": "Modifiable",
+        "type": "boolean",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__PrimordialId__c",
+        "label": "Primordial",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__ClassificationHierarchy__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__ProductAttributeGroupId__c",
+        "label": "Product Attribute Group",
+        "type": "reference",
+        "required": false,
+        "referenceTo": [
+          "Apttus_Config2__ProductAttributeGroup__c"
+        ]
+      },
+      {
+        "name": "Apttus_Config2__Right__c",
+        "label": "Right",
+        "type": "double",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__SearchFilterFields__c",
+        "label": "Search Filter Fields",
+        "type": "multipicklist",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "APTS_Ext_ID__c",
+        "label": "APTS Ext ID",
+        "type": "string",
+        "required": false,
+        "referenceTo": []
+      },
+      {
+        "name": "Apttus_Config2__Type__c",
+        "label": "Type",
+        "type": "picklist",
+        "required": false,
+        "referenceTo": []
+      }
     ]
   }
 }

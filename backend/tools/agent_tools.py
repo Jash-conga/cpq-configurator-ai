@@ -176,6 +176,112 @@ def build_empty_record_template(object_name: str) -> dict:
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+# SALESFORCE LIVE LOOKUP TOOLS
+# These tools query the connected Salesforce org directly.
+# Use them to find existing records (e.g. a Price List the user refers to by
+# name) so their real Salesforce Id can be used in lookup/reference fields.
+# ─────────────────────────────────────────────────────────────────────────────
+
+@tool
+def sf_lookup_by_name(
+    object_name: str,
+    name_value: str,
+    extra_fields: Optional[list] = None,
+) -> list:
+    """
+    Search Salesforce for records of a given object whose Name contains
+    the supplied string (case-insensitive partial match).
+ 
+    Use this when the user references an existing Salesforce record by name
+    (e.g. "Price List 102") and you need to resolve it to a real Salesforce Id
+    before using it as a lookup value.
+ 
+    Returns a list of matching records. Each record always includes 'Id' and
+    'Name'; pass extra_fields to pull in additional columns.
+ 
+    Args:
+        object_name:  Salesforce API object name (e.g. 'Apttus_Config2__PriceList__c').
+        name_value:   The name (or partial name) to search for.
+        extra_fields: Optional list of additional field API names to return.
+    """
+    from salesforce.sf_lookupclient import lookup_records_by_name
+ 
+    results = lookup_records_by_name(
+        object_name=object_name,
+        name_value=name_value,
+        extra_fields=extra_fields or [],
+    )
+    logger.tool_call(
+        "sf_lookup_by_name",
+        {"object_name": object_name, "name_value": name_value},
+        results,
+    )
+    return results
+ 
+ 
+@tool
+def sf_lookup_by_id(
+    object_name: str,
+    record_id: str,
+    extra_fields: Optional[list] = None,
+) -> dict:
+    """
+    Validate that a Salesforce record exists by its Id and return its
+    Id and Name (plus any extra fields requested).
+ 
+    Use this to confirm a user-supplied Salesforce Id is valid before
+    storing it as a lookup reference in the running JSON.
+ 
+    Args:
+        object_name:  Salesforce API object name (e.g. 'Apttus_Config2__PriceList__c').
+        record_id:    The 15- or 18-character Salesforce record Id.
+        extra_fields: Optional list of additional field API names to return.
+    """
+    from salesforce.sf_lookupclient import lookup_record_by_id
+ 
+    result = lookup_record_by_id(
+        object_name=object_name,
+        record_id=record_id,
+        extra_fields=extra_fields or [],
+    )
+    logger.tool_call(
+        "sf_lookup_by_id",
+        {"object_name": object_name, "record_id": record_id},
+        result,
+    )
+    return result
+ 
+ 
+@tool
+def sf_get_record_details(object_name: str, record_id: str) -> dict:
+    """
+    Fetch ALL fields for an existing Salesforce record by its Id.
+ 
+    Use this when you need to inspect the full data of an existing record —
+    for example, to understand a Price List's configuration before creating
+    a related Price List Item, or to reuse field values in a new record.
+ 
+    Returns a dict of all field names and their current values.
+ 
+    Args:
+        object_name: Salesforce API object name (e.g. 'Apttus_Config2__PriceList__c').
+        record_id:   The 15- or 18-character Salesforce record Id.
+    """
+    from salesforce.sf_lookupclient import get_full_record_by_id
+ 
+    result = get_full_record_by_id(
+        object_name=object_name,
+        record_id=record_id,
+    )
+    logger.tool_call(
+        "sf_get_record_details",
+        {"object_name": object_name, "record_id": record_id},
+        result,
+    )
+    return result
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 # SALESFORCE DEPLOYMENT TOOLS (stub — wired in salesforce/sf_client.py)
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -186,26 +292,68 @@ def deploy_to_salesforce() -> dict:
     This will create real records in the connected Salesforce org.
     Only call this when the user explicitly asks to deploy.
     """
-    from backend.salesforce.sf_client import deploy_running_json
+    from salesforce.sf_client import deploy_running_json
     logger.info("deploy_to_salesforce_triggered")
     result = deploy_running_json()
     logger.salesforce_op("deploy_all", "ALL", {}, result)
     return result
+
+# @tool
+# def deploy_to_salesforce() -> dict:
+#     """
+#     Deploy all records in the running JSON to Salesforce.
+#     This will create real records in the connected Salesforce org.
+#     Only call this when the user explicitly asks to deploy.
+#     """
+#     from salesforce.salesforce_record_creator import SalesforceRecordCreator
+#     from simple_salesforce import Salesforce
+#     import os
+#     sf = Salesforce(
+#         username=os.getenv("SF_USERNAME"),
+#         password=os.getenv("SF_PASSWORD"),
+#         security_token=os.getenv("SF_SECURITY_TOKEN"),
+#         domain=os.getenv("SF_DOMAIN"),
+#     )
+ 
+#     creator = SalesforceRecordCreator(sf)
+#     result = creator.create_records(running_json.get_state())
+#     return result
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Tool registry — import this list into the agent
 # ─────────────────────────────────────────────────────────────────────────────
 
+# ALL_TOOLS = [
+#     get_object_schema,
+#     list_available_objects,
+#     get_required_fields,
+#     create_record,
+#     update_record,
+#     get_all_records,
+#     get_running_json,
+#     delete_record,
+#     build_empty_record_template,
+#     deploy_to_salesforce,
+
+# ]
+
 ALL_TOOLS = [
+    # Schema inspection
     get_object_schema,
     list_available_objects,
     get_required_fields,
+    build_empty_record_template,
+    # Running JSON CRUD
     create_record,
     update_record,
     get_all_records,
     get_running_json,
     delete_record,
-    build_empty_record_template,
+    # Salesforce live lookups
+    sf_lookup_by_name,
+    sf_lookup_by_id,
+    sf_get_record_details,
+    # Deployment
     deploy_to_salesforce,
 ]
