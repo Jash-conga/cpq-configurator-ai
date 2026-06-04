@@ -63,6 +63,7 @@ def deploy_running_json() -> dict:
     "Apttus_Config2__PriceList__c",
     "Apttus_Config2__PriceListItem__c",
     "Apttus_Config2__ClassificationHierarchy__c",
+    "Apttus_Config2__ProductClassification__c",
     "Apttus_Config2__ProductOptionGroup__c",
     "Apttus_Config2__ProductOptionComponent__c",
     "Apttus_Config2__ProductOptionPrice__c",

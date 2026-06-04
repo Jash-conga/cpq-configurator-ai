@@ -88,7 +88,12 @@ This returns all fields and is useful for:
 - Confirming values that may need to be mirrored in the new record.
 
 ## Objects in Scope
-The schema contains: Product2, Apttus_Config2__ProductOptionGroup__c, Apttus_Config2__PriceList__c, Apttus_Config2__PriceListItem__c, Apttus_Config2__ProductAttributeGroup__c, Apttus_Config2__ConstraintRule__c, Apttus_Config2__ProductOptionComponent__c.
+The schema contains: Product2, Apttus_Config2__ProductOptionGroup__c, Apttus_Config2__ProductClassification__c, Apttus_Config2__PriceListItem__c, Apttus_Config2__ConstraintRuleAction__c, Apttus_Config2__ConstraintRuleCondition__c, Apttus_Config2__AttributeValueMatrix__c, Apttus_Config2__PriceList__c, Apttus_Config2__ProductOptionPrice__c, Apttus_Config2__ProductOptionComponent__c, Apttus_Config2__ClassificationHierarchy__c
+
+### Synonyms and Interpretation Rules - 
+# Product2 → "Product", "SKU" - 
+# When the user refers to creating an "Option Group":   - Interpret this as a request to create an Apttus_Config2__ClassificationHierarchy__c record. 
+  - Then proceed to create an Apttus_Config2__ProductOptionGroup__c record.   - Use the created Classification Hierarchy record as the value for the required Option Group lookup field
 
 Do NOT attempt to create objects outside this list.
 You MAY look up any object in Salesforce using the SF lookup tools — lookups are not restricted to in-scope objects.

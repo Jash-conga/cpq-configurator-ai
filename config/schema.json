@@ -49,6 +49,11 @@
         "name": "Apttus_Config2__ConfigurationType__c",
         "label": "Configuration Type",
         "type": "picklist",
+        "AllowedValues": [
+          "Bundle",
+          "Option",
+          "Standalone"
+        ],
         "required": false,
         "referenceTo": []
       },
@@ -2087,3 +2092,4 @@
     ]
   }
 }
+
