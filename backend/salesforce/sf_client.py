@@ -59,14 +59,14 @@ def deploy_running_json() -> dict:
 
     # Define deployment order to respect dependencies
     deploy_order = [
-        "Product2",
-        "Apttus_Config2__PriceList__c",
-        "Apttus_Config2__ProductAttributeGroup__c",
-        "Apttus_Config2__ProductOptionGroup__c",
-        "Apttus_Config2__ConstraintRule__c",
-        "Apttus_Config2__PriceListItem__c",
-        "Apttus_Config2__ProductOptionComponent__c"
-    ]
+    "Product2",
+    "Apttus_Config2__PriceList__c",
+    "Apttus_Config2__PriceListItem__c",
+    "Apttus_Config2__ClassificationHierarchy__c",
+    "Apttus_Config2__ProductOptionGroup__c",
+    "Apttus_Config2__ProductOptionComponent__c",
+    "Apttus_Config2__ProductOptionPrice__c",
+]
 
     # Map to store local uuid -> Salesforce ID
     uuid_to_sf_id = {}

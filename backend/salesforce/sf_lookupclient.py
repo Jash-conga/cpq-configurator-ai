@@ -1,5 +1,5 @@
 """
-backend/salesforce/sf_client.py
+backend/salesforce/sf_lookupclient.py
 
 Salesforce connection management and query helpers.
 All direct Salesforce API calls live here — tools call these functions,
@@ -17,7 +17,7 @@ from simple_salesforce.exceptions import SalesforceError
 from utils.logger import get_logger
 
 load_dotenv()
-logger = get_logger("sf_client")
+logger = get_logger("sf_lookupclient")
 
 
 # ─────────────────────────────────────────────────────────────────────────────

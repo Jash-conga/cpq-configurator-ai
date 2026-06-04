@@ -204,7 +204,7 @@ def sf_lookup_by_name(
         name_value:   The name (or partial name) to search for.
         extra_fields: Optional list of additional field API names to return.
     """
-    from salesforce.sf_client import lookup_records_by_name
+    from salesforce.sf_lookupclient import lookup_records_by_name
  
     results = lookup_records_by_name(
         object_name=object_name,
@@ -237,7 +237,7 @@ def sf_lookup_by_id(
         record_id:    The 15- or 18-character Salesforce record Id.
         extra_fields: Optional list of additional field API names to return.
     """
-    from salesforce.sf_client import lookup_record_by_id
+    from salesforce.sf_lookupclient import lookup_record_by_id
  
     result = lookup_record_by_id(
         object_name=object_name,
@@ -267,7 +267,7 @@ def sf_get_record_details(object_name: str, record_id: str) -> dict:
         object_name: Salesforce API object name (e.g. 'Apttus_Config2__PriceList__c').
         record_id:   The 15- or 18-character Salesforce record Id.
     """
-    from salesforce.sf_client import get_full_record_by_id
+    from salesforce.sf_lookupclient import get_full_record_by_id
  
     result = get_full_record_by_id(
         object_name=object_name,
@@ -292,11 +292,32 @@ def deploy_to_salesforce() -> dict:
     This will create real records in the connected Salesforce org.
     Only call this when the user explicitly asks to deploy.
     """
-    from backend.salesforce.sf_client import deploy_running_json
+    from salesforce.sf_client import deploy_running_json
     logger.info("deploy_to_salesforce_triggered")
     result = deploy_running_json()
     logger.salesforce_op("deploy_all", "ALL", {}, result)
     return result
+
+# @tool
+# def deploy_to_salesforce() -> dict:
+#     """
+#     Deploy all records in the running JSON to Salesforce.
+#     This will create real records in the connected Salesforce org.
+#     Only call this when the user explicitly asks to deploy.
+#     """
+#     from salesforce.salesforce_record_creator import SalesforceRecordCreator
+#     from simple_salesforce import Salesforce
+#     import os
+#     sf = Salesforce(
+#         username=os.getenv("SF_USERNAME"),
+#         password=os.getenv("SF_PASSWORD"),
+#         security_token=os.getenv("SF_SECURITY_TOKEN"),
+#         domain=os.getenv("SF_DOMAIN"),
+#     )
+ 
+#     creator = SalesforceRecordCreator(sf)
+#     result = creator.create_records(running_json.get_state())
+#     return result
 
 
 # ─────────────────────────────────────────────────────────────────────────────
