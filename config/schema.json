@@ -1645,7 +1645,7 @@
         "name": "Apttus_Config2__ProductOptionId__c",
         "label": "Product Option",
         "type": "reference",
-        "required": false,
+        "required": true,
         "referenceTo": [
           "Apttus_Config2__ProductOptionComponent__c"
         ]
@@ -1740,7 +1740,7 @@
         "name": "Apttus_Config2__ComponentProductId__c",
         "label": "Component Product",
         "type": "reference",
-        "required": false,
+        "required": true,
         "referenceTo": [
           "Product2"
         ]
@@ -1800,7 +1800,7 @@
         "name": "Apttus_Config2__ProductOptionGroupId__c",
         "label": "Product Option Group",
         "type": "reference",
-        "required": false,
+        "required": true,
         "referenceTo": [
           "Apttus_Config2__ProductOptionGroup__c"
         ]
@@ -1884,7 +1884,7 @@
         "name": "Name",
         "label": "Name",
         "type": "string",
-        "required": false,
+        "required": true,
         "referenceTo": []
       },
       {
