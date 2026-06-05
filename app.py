@@ -831,6 +831,9 @@ div[data-testid="stDialog"] > div,
 }
 [data-testid="stDialog"] button[kind="primary"]:hover,
 [data-testid="stDialog"] button[kind="secondary"]:hover { background: #6f56e0 !important; }
+
+/* ── Duplicate layout fix ── */
+.cpq-duplicate { display: none !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -1791,3 +1794,38 @@ with col_right:
         st.session_state.chat_history.append({"role": "user", "content": user_input})
         st.session_state.pending_input = user_input
         st.rerun()
+
+# ─────────────────────────────────────────────────────────────────────────────
+# JS: hide duplicate layout only
+# Must use components.html — st.markdown strips <script> tags.
+# ─────────────────────────────────────────────────────────────────────────────
+import streamlit.components.v1 as _c
+_c.html("""<script>
+(function () {
+  var doc = window.parent.document;
+
+  function hideDuplicates() {
+    var all = doc.querySelectorAll('[data-testid="stHorizontalBlock"]');
+    for (var i = 0; i < all.length; i++) {
+      var b = all[i];
+      if (b.closest('[data-testid="stColumn"]')) continue;
+      var cols = b.querySelectorAll(':scope > [data-testid="stColumn"]');
+      if (cols.length !== 2 || !b.querySelector('.panel-label')) continue;
+      // This is the real layout — hide everything that comes after it
+      var wrapper = b.closest('[data-testid="stLayoutWrapper"]');
+      if (!wrapper) continue;
+      var sib = wrapper.nextElementSibling;
+      while (sib) {
+        if (sib.getAttribute('data-testid') === 'stLayoutWrapper') {
+          sib.classList.add('cpq-duplicate');
+        }
+        sib = sib.nextElementSibling;
+      }
+      break;
+    }
+  }
+
+  setInterval(hideDuplicates, 500);
+  hideDuplicates();
+})();
+</script>""", height=0, scrolling=False)
